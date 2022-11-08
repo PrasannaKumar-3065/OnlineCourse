@@ -6,7 +6,7 @@ include('includes/config.php');
 if ($_SESSION['id']!=null) {
   header('location:index.php');
 } else {
-  date_default_timezone_set('Asia/Kolkata'); // change according timezone
+  date_default_timezone_set('Asia/Kolkata'); 
   $currentTime = date('d-m-Y h:i:s A', time());
   if (isset($_POST['submit'])) {
     $studentregno = $_POST['studentregno'];
