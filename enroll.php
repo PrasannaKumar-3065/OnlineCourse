@@ -1,5 +1,5 @@
 <?php
-session_start()
+session_start();
 include('includes/config.php');
   $rst=mysqli_fetch_assoc(mysqli_query($bd, "select elective from semester where id=".$_SESSION['semester']." "));
   $cr=$rst["elective"];
