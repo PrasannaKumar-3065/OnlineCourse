@@ -10,7 +10,7 @@ if ($_SESSION['alogin']!="" or strlen($_SESSION['dept'])==0 or strlen($_SESSION[
     $tutorname=$_POST['tutorname'];
     $c = $_POST['student'];
    
-        foreach($c as $a)
+        foreach($c as $a){
           $student = $a;
           $ref = mysqli_query($bd, "SELECT * FROM students where StudentRegno='" . $a . "' && tutorname= ".$_POST['tutorname']." ");
           $col = mysqli_num_rows($ref);
