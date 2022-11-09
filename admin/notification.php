@@ -9,13 +9,13 @@ header('location:index.php');
 else{
 date_default_timezone_set('Asia/Kolkata');// change according timezone
 $currentTime = date( 'd-m-Y h:i:s A', time () );
-$id = $_GET['id'];
 
 if(isset($_POST['submit']))
 {
-    
+    $id = $_GET['id'];
 }
 if(isset($_POST['cancel'])){
+    $id = $_GET['id'];
     $sql = mysqli_query($bd,"Update notification set status = 'Denied' where id = ".$id." ");
     if($sql){
         $_SESSION['msg'] = "message discarded";
@@ -64,6 +64,7 @@ if(isset($_POST['cancel'])){
                         <div class="panel-body">
                         <?php 
                             $sql = mysqli_query($bd,"select * from notification where status = 'pending' ");
+                            if(mysqli_num_rows($sql)>0){
                             while($res = mysqli_fetch_assoc($sql)){
                         ?>
                         <form method="post" action="notification.php?id=<?php echo $res['id'];?>">
@@ -74,7 +75,9 @@ if(isset($_POST['cancel'])){
                         <button type="submit" name="submit" class="btn btn-default">Approve</button>
                         <button type="submit" name="cancel" class="btn btn-default">Reject</button>
                         <hr />
-                        <?php }?>
+                        <?php }}else{
+                            $_SESSION['msg'] = "No messages available";
+                        }?>
 
 </form>
                             </div>
