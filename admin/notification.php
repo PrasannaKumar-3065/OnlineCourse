@@ -9,14 +9,14 @@ header('location:index.php');
 else{
 date_default_timezone_set('Asia/Kolkata');// change according timezone
 $currentTime = date( 'd-m-Y h:i:s A', time () );
-
+$id = $_GET['id'];
 
 if(isset($_POST['submit']))
 {
     
 }
 if(isset($_POST['cancel'])){
-    $sql = mysqli_query($bd,"Update notification set status = 'Denied' where id = ".$_GET['id']." ");
+    $sql = mysqli_query($bd,"Update notification set status = 'Denied' where id = ".$id." ");
     if($sql){
         $_SESSION['msg'] = "message discarded";
     }
