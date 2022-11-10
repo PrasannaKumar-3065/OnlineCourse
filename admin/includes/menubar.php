@@ -1,6 +1,6 @@
 <?php
     include "includes/config.php";
-    $noti = mysqli_num_rows(mysqli_query($bd,"SELECT * FROM notification;"));
+    $noti = mysqli_num_rows(mysqli_query($bd,"SELECT * FROM notification where status = 'Pending';"));
 ?>
 <section class="menu-section">
         <div class="container">

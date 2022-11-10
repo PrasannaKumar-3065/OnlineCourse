@@ -123,10 +123,16 @@ if ($_SESSION['id']!=null) {
   }
 }
 if (isset($_POST['sendreq'])) {
-  $sql = mysqli_query($bd,"Insert into notification(from_user,to_user,message,status) values('".$_SESSION["sname"]."','admin','request for re-registering course by ".$_SESSION["sname"]."', 'Pending') ");
-  if($sql!=0){
-    $_SESSION["msg"] = "request sent sucessfully";
-  }
+    $sq = mysqli_num_rows(mysqli_query($bd,"Select * from notification where from_user = '".$_SESSION['sname']."' and status = 'Pending' "));
+    if($sq != 0){
+      $_SESSION['errmsg'] = "only one request can be sent";
+    }
+    else{
+      $sql = mysqli_query($bd,"Insert into notification(from_user,to_user,message,status) values('".$_SESSION["sname"]."','admin','request for re-registering course by ".$_SESSION["sname"]."', 'Pending') ");
+      if($sql!=0){
+        $_SESSION["msg"] = "request sent sucessfully";
+      }
+    }
 }
 ?>
 <?php
@@ -349,10 +355,6 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                 Request permission
               </div>
               <?php 
-                      $sq = mysqli_num_rows(mysqli_query($bd,"Select * from notification where from_user = '".$_SESSION['sname']."' "));
-                      if($sq != 0){
-                        $_SESSION['errmsg'] = "only one request can be sent";
-                      }
                     ?>
               <font color="red" align="center"><?php echo htmlentities($_SESSION['errmsg']); echo htmlentities($_SESSION['errmsg']="");?></font>
               <font color="green" align="center"><?php  echo htmlentities($_SESSION['msg']);  echo htmlentities($_SESSION['msg']="");?></font>
