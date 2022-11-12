@@ -65,7 +65,6 @@ if(isset($_POST['cancel'])){
                         </div>
 <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
 
-
                         <div class="panel-body">
                         <?php 
                             $sql = mysqli_query($bd,"select * from notification where status = 'pending' ");
