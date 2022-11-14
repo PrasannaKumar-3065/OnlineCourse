@@ -4,8 +4,9 @@
             <div class="col-md-12">
                 <div class="navbar-collapse collapse ">
                     <ul id="menu-top" class="nav navbar-nav navbar-right">
-                        <li><a href="enroll.php">Enroll for Course </a></li>
-                        <li><a href="enroll-history.php">Enroll History </a></li>
+                        <li><a href="mystudents.php">My Students</a></li>
+                        <li><a href="asign.php">Asign students</a></li>
+                        <li><a href="checkCredits.php">Check Credits</a></li>
                         <li><a href="my-profile.php">My Profile</a></li>
                         <li><a href="change-password.php">Change Password</a></li>
                         <li><a href="logout.php">Logout</a></li>

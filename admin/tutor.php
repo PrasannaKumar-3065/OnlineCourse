@@ -6,7 +6,9 @@ if(strlen($_SESSION['alogin'])==0)
 header('location:index.php');
 }
 else{
-
+if($_SESSION["msg"] != ""){
+  $_SESSION["msg"] = "";
+}
 if(isset($_POST['submit']))
 {
    $tutorname=$_POST['tutorname'];

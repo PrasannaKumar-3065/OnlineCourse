@@ -1,9 +1,9 @@
 <?php 
 require_once("includes/config.php");
-if(!empty($_POST["tut"])) {
-	$tut= $_POST["tut"];
+if(isset($_GET["tut"])) {
+	$tut= $_GET["tut"];
 	
-		$result =mysqli_query($bd, "SELECT username FROM tutors where username='$tut' ");
+		$result =mysqli_query($bd,"SELECT username FROM tutors where username='".$tut."' ");
 		$count=mysqli_num_rows($result);
 if($count>0)
 {
