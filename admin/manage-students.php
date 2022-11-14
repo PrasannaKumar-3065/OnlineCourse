@@ -50,7 +50,7 @@ if(isset($_GET['del']))
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Course  </h1>
+                        <h1 class="page-head-line">students  </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -60,7 +60,7 @@ if(isset($_GET['del']))
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Manage Course
+                            Manage students
                         </div>
                         
                         <div class="panel-body">
