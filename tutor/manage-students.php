@@ -1,14 +1,26 @@
 <?php
 session_start();
 include('includes/config.php');
-if(strlen($_SESSION['tlogin']) == "")
+if(strlen($_SESSION['alogin'])==0)
     {   
 header('location:index.php');
 }
+else{
+
+
+
 if(isset($_GET['del']))
       {
-              mysqli_query($bd, "update students set tutorname = NULL where StudentRegno = '".$_GET['id']."'");
+              mysqli_query($bd, "delete from students where StudentRegno = '".$_GET['id']."'");
                   $_SESSION['delmsg']="Student record deleted !!";
+      }
+
+     if(isset($_GET['pass']))
+      {
+        $password="12345";
+        $newpass=md5($password);
+              mysqli_query($bd, "update students set password='$newpass' where StudentRegno = '".$_GET['id']."'");
+                  $_SESSION['delmsg']="Password Reset. New Password is 12345";
       } 
 ?>
 
@@ -63,9 +75,9 @@ if(isset($_GET['del']))
                                              <th>Action</th>
                                         </tr>
                                     </thead>
-                                    
+                                    <tbody>
 <?php
-$sql=mysqli_query($bd, "select * from students where tutorname= '".$_SESSION["tlogin"]."' ");
+$sql=mysqli_query($bd, "select * from students");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {
@@ -78,20 +90,20 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['studentName']);?></td>
                                             <td><?php echo htmlentities($row['creationdate']);?></td>
                                             <td>              
-<a href="mystudents.php?id=<?php echo $row['StudentRegno']?>&del=delete" onClick="return confirm('Are you sure you want to remove student from tutor ward?')">
-                                            <button class="btn btn-danger">Remove</button>
+<a href="manage-students.php?id=<?php echo $row['StudentRegno']?>&del=delete" onClick="return confirm('Are you sure you want to delete?')">
+                                            <button class="btn btn-danger">Delete</button>
 </a>
-<a href="showcourses.php?id=<?php echo $row['StudentRegno']?>">
-<button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>
+<a href="manage-students.php?id=<?php echo $row['StudentRegno']?>&pass=update" onClick="return confirm('Are you sure you want to reset password?')">
+<button type="submit" name="submit" id="submit" class="btn btn-default">Reset Password</button>
 </a>
-                                   </td>
+                                            </td>
                                         </tr>
-                                        <tr id="<?php echo $row['StudentRegno']?>"></tr>
 <?php 
 $cnt++;
 } ?>
+
                                         
-                                    
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -114,3 +126,4 @@ $cnt++;
     <script src="assets/js/bootstrap.js"></script>
 </body>
 </html>
+<?php } ?>
