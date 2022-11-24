@@ -53,7 +53,7 @@ else
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Student Registration  </h1>
+                        <h1 class="page-head-line">Student- My Profile   </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -61,7 +61,7 @@ else
                     <div class="col-md-6">
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                          Student Registration
+                          Update Profile
                         </div>
 <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
 <?php $sql=mysqli_query($bd, "select * from students where StudentRegno='".$_SESSION['login']."'");
