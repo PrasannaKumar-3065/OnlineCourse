@@ -70,8 +70,6 @@ $sem = 0;
 while($row=mysqli_fetch_array($sql))
 {
 ?>
-
-
                                         <tr>
                                             <td><?php echo $cnt;?></td>
                                             <td><?php echo htmlentities($row['studentRegno']);?></td>
@@ -82,14 +80,11 @@ while($row=mysqli_fetch_array($sql))
                                         </tr>              
 <?php 
 $cnt++;
-if($sem == $row["semester"]){
-    ?><tr>
-    <td colspan="6"><?php echo "Total credits in semester ".$sem." : ".$credit;?></td>
-    </tr><?php
-}
-$sem = $row["semester"];
+    ?><?php
 $credit += $row["credit"];
-} ?>
+} ?><tr>
+<td colspan="6"><?php echo "Total credits : ".$credit;?></td>
+</tr>
 
                                 </table>
                             </div>
