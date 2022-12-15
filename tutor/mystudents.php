@@ -28,7 +28,7 @@ if(isset($_GET['del']))
 <body>
 <?php include('includes/header.php');?>
    
-<?php if($_SESSION['alogin']!="")
+<?php if($_SESSION['tlogin']!="")
 {
  include('includes/menubar.php');
 }
