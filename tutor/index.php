@@ -29,7 +29,7 @@ $query=mysqli_query($bd, "SELECT * FROM tutors WHERE username='$username' and pa
 if(mysqli_num_rows($query)>0)
 {
 $num=mysqli_fetch_array($query);
-$extra="select.php";//
+$extra="select.php";
 $_SESSION['tlogin']=$username;
 $_SESSION['id']=$num['username'];
 $_SESSION['tname']=$num['tutorname'];

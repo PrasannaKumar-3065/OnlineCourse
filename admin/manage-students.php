@@ -53,6 +53,30 @@ if(isset($_GET['del']))
                         <h1 class="page-head-line">students  </h1>
                     </div>
                 </div>
+                <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                           Course File
+                        </div>
+                       
+                        <div class="panel-body">
+                        <form class="" action="" method="POST" enctype="multipart/form-data" >
+<div class="form-group">
+    <label for="coursefile">Excel File Import: </label>
+    <input type="file" value="" name="excel"/><br>
+    <button name="import" type="submit" class="btn btn-primary mt-3">Import</button>
+  </div>
+
+</form>
+                      
+
+                        </div>
+                </div>
+</div>
+</div>
+
                 <div class="row" >
                  
                 <font color="red" align="center"><?php echo htmlentities($_SESSION['delmsg']);?><?php echo htmlentities($_SESSION['delmsg']="");?></font>
@@ -126,4 +150,45 @@ $cnt++;
     <script src="assets/js/bootstrap.js"></script>
 </body>
 </html>
+<?php
+		if(isset($_POST["import"])){
+      
+			$fileName = $_FILES["excel"]["name"];
+			$fileExtension = explode('.', $fileName);
+      $fileExtension = strtolower(end($fileExtension));
+			$newFileName = date("Y.m.d") . " - " . date("h.i.sa") . "." . $fileExtension;
+
+			$targetDirectory = "uploads/" . $newFileName;
+			move_uploaded_file($_FILES['excel']['tmp_name'], $targetDirectory);
+
+			error_reporting(0);
+			ini_set('display_errors', 0);
+
+			require 'excelReader/excel_reader2.php';
+			require 'excelReader/SpreadsheetReader.php';
+
+			$reader = new SpreadsheetReader($targetDirectory);
+			foreach($reader as $key => $row){
+
+    
+				$rollno = $row[0];
+                $pass = md5($rollno);
+				$name = $row[1];
+				$department = $row[2];
+                $batch = $row[3];
+                $semester = $row[4];
+                $regulation = $row[5];
+				mysqli_query($bd, "INSERT INTO students(studentRegno,password,studentName,department,regulation,batch,semester) VALUES('".$rollno."','".$pass."','".$name."','".$department."','".$regulation."','".$batch."',".$semester.")");
+			}
+
+			echo
+			"
+			<script>
+			alert('Succesfully Imported');
+			document.location.href = '';
+			</script>
+			";
+		}
+		?>
+
 <?php } ?>

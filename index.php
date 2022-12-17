@@ -42,11 +42,11 @@ $_SESSION['photo']=$num['studentPhoto'];
 $_SESSION['batch']=$num['batch'];
 $uip=get_client_ip();
 $status=1;
-$flag = mysqli_num_rows(mysqli_query($bd,"select * from userlog where studentRegno='".$regno."' "));
-$log=mysqli_query($bd, "insert into userlog(studentRegno,userip,status) values('".$_SESSION['login']."','$uip','$status')");
+$flag = mysqli_num_rows(mysqli_query($bd,"select * from userlog where username='".$regno."' "));
+$log=mysqli_query($bd, "insert into userlog(username,userip,status) values('".$_SESSION['login']."','$uip','$status')");
 $host=$_SERVER['HTTP_HOST'];
 $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
-if($flag < 1){
+if($flag == 0){
     header("location:change-password.php");
 }
 else{

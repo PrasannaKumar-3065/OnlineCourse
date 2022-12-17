@@ -54,7 +54,6 @@ if(isset($_GET['del']))
                     </div>
                 </div>
                 <div class="row" >
-                 
                 <font color="red" align="center"><?php echo htmlentities($_SESSION['delmsg']);?><?php echo htmlentities($_SESSION['delmsg']="");?></font>
                 <div class="col-md-12">
                     
@@ -126,4 +125,45 @@ $cnt++;
     <script src="assets/js/bootstrap.js"></script>
 </body>
 </html>
+<?php
+		if(isset($_POST["import"])){
+      
+			$fileName = $_FILES["excel"]["name"];
+			$fileExtension = explode('.', $fileName);
+      $fileExtension = strtolower(end($fileExtension));
+			$newFileName = date("Y.m.d") . " - " . date("h.i.sa") . "." . $fileExtension;
+
+			$targetDirectory = "uploads/" . $newFileName;
+			move_uploaded_file($_FILES['excel']['tmp_name'], $targetDirectory);
+
+			error_reporting(0);
+			ini_set('display_errors', 0);
+
+			require 'excelReader/excel_reader2.php';
+			require 'excelReader/SpreadsheetReader.php';
+
+			$reader = new SpreadsheetReader($targetDirectory);
+			foreach($reader as $key => $row){
+
+    
+				$courseCode = $row[0];
+				$courseName = $row[1];
+				$type = $row[2];
+        $department = $row[3];
+        $semester = $row[4];
+        $credit = $row[5];
+        $noofSeats = $row[6];
+        $regulation = $row[7];
+				mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,semester,credit,noofSeats,regulation) VALUES('', '$courseCode','$courseName','$type','$department', '$semester','$credit','$noofSeats','$regulation')");
+			}
+
+			echo
+			"
+			<script>
+			alert('Succesfully Imported');
+			document.location.href = '';
+			</script>
+			";
+		}
+		?>s
 <?php } ?>
