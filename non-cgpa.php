@@ -1,20 +1,19 @@
 <?php
 session_start();
 include('includes/config.php');
-if (strlen($_SESSION['tlogin']) == "") {
+if (strlen($_SESSION['login']) == "") {
   header('location:index.php');
 }
 
   if (isset($_POST['submit'])) {
     $photo = $_FILES["photo"]["name"];
-    move_uploaded_file($_FILES["photo"]["tmp_name"], "tutorphoto/" . $_FILES["photo"]["name"]);
+    move_uploaded_file($_FILES["photo"]["tmp_name"], "uploads/" . $_FILES["photo"]["name"]);
     $img = file_get_contents(
-      'tutorphoto/' . $photo
+      'uploads/' . $photo
     );
     $data = base64_encode($img);
-    $ret = mysqli_query($bd, "update tutors set image ='$data'  where username='" . $_SESSION['tlogin'] . "'");
+    $ret = mysqli_query($bd, "insert into  noncgpa(name,courseName,type,proof) values ('" . $_SESSION['login'] . "', 'NPTL','T1','$data')");
     if ($ret) {
-      
       $_SESSION['msg'] = "Tutor Record updated Successfully !!";
     } else {
       $_SESSION['msg'] = "Error : Tutor Record not update";
@@ -39,7 +38,7 @@ if (strlen($_SESSION['tlogin']) == "") {
   <body>
     <?php include('includes/header.php'); ?>
 
-    <?php if ($_SESSION['tlogin'] != "") {
+    <?php if ($_SESSION['login'] != "") {
       include('includes/menubar.php');
     }
     ?>
@@ -48,7 +47,7 @@ if (strlen($_SESSION['tlogin']) == "") {
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h1 class="page-head-line">My Profile</h1>
+            <h1 class="page-head-line">Certificates</h1>
           </div>
         </div>
         <div class="row">
@@ -56,43 +55,32 @@ if (strlen($_SESSION['tlogin']) == "") {
           <div class="col-md-6">
             <div class="panel panel-default">
               <div class="panel-heading">
-                My Profile
+                My Certificates
               </div>
               <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']); ?><?php echo htmlentities($_SESSION['msg'] = ""); ?></font>
-              <?php $sql1 = mysqli_query($bd, "select * from tutors where username= '".$_SESSION['tlogin']."' ");
-              if ($row = mysqli_fetch_assoc($sql1)) {?>
+              <form name="dept" method="post" enctype="multipart/form-data">
+              <?php $sql1 = mysqli_query($bd, "select * from noncgpa where name= '".$_SESSION['login']."' ");
+              while ($row = mysqli_fetch_assoc($sql1)) { ?>
 
                 <div class="panel-body">
-                  <form name="dept" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                      <label for="studentname">Username</label>
-                      <input type="text" class="form-control" id="studentname" name="studentname" value="<?php echo htmlentities($row['username']); ?>" readonly />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="studentregno">Name</label>
-                      <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo htmlentities($row['tutorname']); ?>" placeholder="Student Reg no" readonly />
-
-                    </div>
-
-                    <div class="form-group">
-                      <label for="Pincode">Tutor Photo</label>
-                      <?php if ($row['image'] == "") { ?>
+                      <label for="Pincode"><?php echo $row["title"] ?> Proof</label>
+                      <?php if ($row['proof'] == "") { ?>
                         <img src="studentphoto/noimage.png" width="200" height="200"><?php } else { ?>
-                        <img src="data:image/jpeg;base64,<?php echo $row['image']; ?>" width="200" height="200">
-                        <!-- <embed src="data:application/pdf;base64,<?php echo $row['image']; ?>" type="application/pdf"   height="700px" width="500"> -->
+                        <!-- <img src="data:image/jpeg;base64,<?php echo $row['proof']; ?>" width="200" height="200"> -->
+                        <embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf"   height="200px" width="500">
                       <?php } ?>
                     </div>
-                    <div class="form-group">
+                  <?php } ?>
+                  <div class="form-group">
                       <label for="Pincode">Upload New Photo </label>
-                      <input type="file" class="form-control" id="photo" name="photo" value="<?php echo htmlentities($row['image']); ?>" />
+                      <input type="file" class="form-control" id="photo" name="photo" value="<?php echo htmlentities($row['proof']); ?>" />
                     </div>
 
 
                   
 
                   <button type="submit" name="submit" id="submit" class="btn btn-default">Update</button>
-                  <?php } ?>
               </form>
             </div>
             </div>
