@@ -5,13 +5,8 @@ if(strlen($_SESSION['tlogin']) == "")
     {   
 header('location:index.php');
 }
-if(isset($_GET['del']))
-      {
-              mysqli_query($bd, "update students set tutorname = NULL where StudentRegno = '".$_GET['id']."'");
-                  $_SESSION['delmsg']="Student record deleted !!";
-      } 
+$reg = $_GET["id"];
 ?>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,7 +14,7 @@ if(isset($_GET['del']))
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Admin | Course</title>
+    <title>Tutor | Course</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -57,44 +52,40 @@ if(isset($_GET['del']))
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Reg No </th>
-                                            <th>Student Name </th>
-                                             <th>Reg Date</th>
-                                             <th>Action</th>
+                                            <th>Student Regno</th>
+                                            <th>Platform</th>
+                                            <th>Title</th>
+                                            <th>Type</th>
+                                            <th>Proof</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from students where tutorname= '".$_SESSION["tlogin"]."' ");
+$sql=mysqli_query($bd, "select * from noncgpa where name= ".$reg." order by type");
 $cnt=1;
+$credit = 0;
+$sem = 0;
 while($row=mysqli_fetch_array($sql))
 {
 ?>
-
-
                                         <tr>
                                             <td><?php echo $cnt;?></td>
-                                            <td><?php echo htmlentities($row['StudentRegno']);?></td>
-                                            <td><?php echo htmlentities($row['studentName']);?></td>
-                                            <td><?php echo htmlentities($row['creationdate']);?></td>
-                                            <td>              
-<a href="mystudents.php?id=<?php echo $row['StudentRegno']?>&del=delete" onClick="return confirm('Are you sure you want to remove student from tutor ward?')">
-                                            <button class="btn btn-danger">Remove</button>
-</a>
-<a href="showcourses.php?id=<?php echo $row['StudentRegno']?>">
-<button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>
-</a>
-<a href="showcertificates.php?id=<?php echo $row['StudentRegno']?>">
-<button type="submit" name="submit" id="submit" class="btn btn-default">Certificates</button>
-</a>
-                                   </td>
-                                        </tr>
-                                        <tr id="<?php echo $row['StudentRegno']?>"></tr>
+                                            <td><?php echo htmlentities($row['name']);?></td>
+                                            <td><?php echo htmlentities($row['platform']);?></td>
+                                            <td><?php echo htmlentities($row['title']);?></td>
+                                            <td><?php echo htmlentities($row['type']);?></td>
+                                            <td><embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px"> </td>
+                                            <?php if($row["status"] == ""){ ?>
+                                            <td><a class="btn btn-success">Approve</a> <a class="btn btn-danger">Cancel</a> </td>
+                                            <?php } else{?>
+                                            <td><?php echo $row["status"]; ?></td>
+                                            <?php }?>
+                                        </tr>              
 <?php 
 $cnt++;
-} ?>
-                                        
-                                    
+}?>
+
                                 </table>
                             </div>
                         </div>

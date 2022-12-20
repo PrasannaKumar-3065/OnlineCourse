@@ -65,7 +65,7 @@ if (isset($_GET["id"])) {
       <div class="row">
         
         <div class="col-md-5">
-          <div class="panel panel-default">
+          <div class="panel panel-default" style="position: fixed-top;">
             <div class="panel-heading">
               Add Certificates
             </div>
@@ -87,9 +87,9 @@ if (isset($_GET["id"])) {
                 <div class="form-group">
                   <label for="batch">Type</label>
                   <select class="form-select" aria-label="Default select example" name="type" id="type" required="required">
-                    <option value="noncgpaT">Non Cgpa (Technical)</option>
-                    <option value="noncgpaN">Non Cgpa (Non Technical)</option>
-                    <option value="creditT">Credit Transfer</option>
+                    <option value="Non Cgpa (Technical)">Non Cgpa (Technical)</option>
+                    <option value="Non Cgpa (Non Technical)">Non Cgpa (Non Technical)</option>
+                    <option value="Credit Transfer">Credit Transfer</option>
                     <option value="others">others</option>
                   </select>
                 </div>
@@ -118,9 +118,10 @@ if (isset($_GET["id"])) {
                         <?php if ($row['proof'] == "") { ?>
                           <img src="studentphoto/noimage.png" width="200" height="200"><?php } else { ?>
                           <!-- <img src="data:image/jpeg;base64,<?php echo $row['proof']; ?>" width="200" height="200"> -->
-                          <iframe src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px" width="500">
+                          <embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px" width="500">
                         <?php } ?>
                       </div>
+                      <hr>
                   <?php } ?>
                   </div>
             </div>
