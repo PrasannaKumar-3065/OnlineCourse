@@ -6,6 +6,22 @@ if(strlen($_SESSION['tlogin']) == "")
 header('location:index.php');
 }
 $reg = $_GET["id"];
+
+if(isset($_GET["action"])){
+    if($_GET["action"] == "approve"){
+        $sql = mysqli_query($bd,"update noncgpa set status = 'Approved' where id = ".$_GET["aid"]." ");
+        if($sql){
+            $_SESSION["msg"] = "Approved";
+        }
+    }else if($_GET["action"] == "cancel"){
+        $sql = mysqli_query($bd, "update noncgpa set status = 'Cancel' where id = ".$_GET["aid"]." ");
+        if($sql){
+            $_SESSION["errmsg"] = "cancelled";
+        }
+    }
+}
+
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -38,7 +54,8 @@ $reg = $_GET["id"];
                 </div>
                 <div class="row" >
                  
-                <font color="red" align="center"><?php echo htmlentities($_SESSION['delmsg']);?><?php echo htmlentities($_SESSION['delmsg']="");?></font>
+                <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
+                <font color="red" align="center"><?php echo htmlentities($_SESSION['errmsg']);?><?php echo htmlentities($_SESSION['errmsg']="");?></font>
                 <div class="col-md-12">
                     
                     <div class="panel panel-default">
@@ -77,15 +94,14 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['type']);?></td>
                                             <td><embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px"> </td>
                                             <?php if($row["status"] == ""){ ?>
-                                            <td><a class="btn btn-success">Approve</a> <a class="btn btn-danger">Cancel</a> </td>
-                                            <?php } else{?>
-                                            <td><?php echo $row["status"]; ?></td>
+                                            <td><a href="showcertificates.php?id=<?php echo $reg; ?>&action=approve&aid=<?php echo $row["id"];?>" class="btn btn-success">Approve</a> <a href="showcertificates.php?id=<?php echo $reg; ?>&action=cancel&aid=<?php echo $row["id"];?>" class="btn btn-danger">Cancel</a> </td>
+                                            <?php } else{ $color = ""; if($row["status"] == "Approved"){$color = "text-success";}else{$color = "text-danger";} ?>
+                                            <td class="<?php echo $color;?>"><?php echo $row["status"]; ?></td>
                                             <?php }?>
                                         </tr>              
 <?php 
 $cnt++;
 }?>
-
                                 </table>
                             </div>
                         </div>
