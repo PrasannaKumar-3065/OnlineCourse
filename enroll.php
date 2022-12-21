@@ -3,6 +3,12 @@ session_start();
 include('includes/config.php');
   $rst=mysqli_fetch_assoc(mysqli_query($bd, "select elective from semester where id=".$_SESSION['semester']." "));
   $cr=$rst["elective"];
+  $noncgpa = mysqli_query($bd,"select * from noncgpa where name = ".$_SESSION["login"]." and type = 'Credit Transfer' and status = 'Approved' ");
+  $creditcount = mysqli_num_rows($noncgpa);
+  $flag = 0;
+  if($creditcount > 0){
+    $flag = 1;
+  }
 if ($_SESSION['id']!=null) {
   header('location:index.php');
 } else {
@@ -254,7 +260,6 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                     <label for="Course">Course </label>
                     <br>
                     <select class="form-select" multiple aria-label="multiple select example" name="course[]" id="course[]" onchange="courseAvailability(this.value)" required="required">
-                      
                       <?php
                       $sql = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and semester=". $_SESSION['semester']." and regulation='" . $_SESSION['regulation'] . "'");
                       while ($row = mysqli_fetch_array($sql)) {
@@ -272,8 +277,17 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                   if($cr==0){
                     echo 'No Electives available for this semester';
                   }else{
+                    if($flag == 1){
+                      ?> <font color="green">you have credit transfer option. Check any <?php echo $creditcount; ?> for credit transfer</font>
+                    <?php
+                    }
                     for($i=1;$i<=$cr;$i++){
-                      ?>
+                              if($flag == 1){
+                                ?>
+                                <input type="checkbox" id="credit" name="credit" onchange="check(this,<?php echo $i; ?>)">
+                                <?php
+                              } 
+                              ?>
                             <div class="form-group">
                                 <label for="Course">Course  </label>
                                 <select class="form-select" aria-label="Default select example" name="elective[]" id="elective[]" onchange="courseAvailability(this.value)"  required="required">
@@ -283,9 +297,8 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                             while($row=mysqli_fetch_array($sql))
                             {
                             ?>
-                            <option value="<?php echo htmlentities($row['id']);?>" ><?php echo htmlentities($row['courseName']);?></option>
-                            <?php 
-                          } ?>
+                            <option id="<?php echo $i; ?>" value="<?php echo htmlentities($row['id']);?>" ><?php echo htmlentities($row['courseName']);?></option>
+                            <?php } ?>
                                 </select> 
                               </div>
                     <?php } 
@@ -385,5 +398,30 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
   }
 ?>
   </body>
-
+<script>
+  var count = 0;
+  var no = <?php echo $creditcount; ?>;
+  function check(checkbox,value){
+    if(checkbox.checked == true){
+      if(count < no){
+        count++;
+        var elms = document.querySelectorAll("[id='"+value+"']");
+        for(var i = 0; i < elms.length; i++){ 
+          elms[i].disabled=true;
+        }
+      }
+      else{
+        checkbox.checked = false;
+        alert("You can only select "+no+" of courses");
+      }
+    }
+    else{
+      count --;
+      var elms = document.querySelectorAll("[id='"+value+"']");
+        for(var i = 0; i < elms.length; i++) {
+          elms[i].disabled=false;
+        }
+    }
+  }
+</script>
   </html>
