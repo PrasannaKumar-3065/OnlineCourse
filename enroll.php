@@ -51,21 +51,37 @@ if ($_SESSION['id']!=null) {
           }
         }
         if($cr > 0){
+          $cnt1 = 1;
           foreach($e as $el){
             $ref = mysqli_query($bd, "SELECT * FROM courseenrolls where studentName='" . $_POST['studentname'] . "' && semester=" . $_POST['sem'] . " && course='" . $el . "' && department='" . $_POST['department'] . "' && studentRegno='" . $_POST['studentregno'] . "' && batch='" . $_POST['batch'] . "' ");
             $col = mysqli_num_rows($ref);
             if ($col == 0){
-              $cc1 = mysqli_fetch_assoc(mysqli_query($bd,"SELECT credit from course where id='" . $el . "'"));
-              $count += $cc1['credit']; 
-              //$ret = mysqli_query($bd,"UPDATE totalcredits SET creditsum=creditsum+".$cc1['credit']." where studentname='" . $_POST['studentname'] . "' &&  semester='" . $_POST['sem'] . "' && batch='" . $_POST['batch'] . "' && studentRegno='" . $_POST['studentregno'] . "' && department='" . $_POST['department'] . "' ");
+              if(isset($_POST["credit".$cnt1])){
+                $o = mysqli_query($bd,"update noncgpa set status = 'Completed' where name = ".$_SESSION["login"]." and type = 'Credit Transfer' limit 1");
+                if($o){
+                  $o1 = mysqli_query($bd,"insert into creditTransfers (name,rollNo, course,semester) values ('".$_SESSION["sname"]."',".$_SESSION["login"].", ".$el.", ".$_SESSION["semester"].") ;");
+                  if($o1){
+                    $_SESSION['msg'] .= $el . "Credit Transferred Successfully !! ";
+                  }
+                }
+                else{
+                  $_SESSION['msg'] .= $el . "Error : Not Transfered";
+                }
+              }
+              else{
+                $cc1 = mysqli_fetch_assoc(mysqli_query($bd,"SELECT credit from course where id='" . $el . "'"));
+                $count += $cc1['credit']; 
+                //$ret = mysqli_query($bd,"UPDATE totalcredits SET creditsum=creditsum+".$cc1['credit']." where studentname='" . $_POST['studentname'] . "' &&  semester='" . $_POST['sem'] . "' && batch='" . $_POST['batch'] . "' && studentRegno='" . $_POST['studentregno'] . "' && department='" . $_POST['department'] . "' ");
                 $o = mysqli_query($bd, "insert into courseenrolls(studentRegno,studentname,department,course,semester,batch) values('$studentregno','$studentname','$dept','$el','$sem','$batch')");
                 if($o){
                   $_SESSION['msg'] .= $el . "Enroll Successfully !! ";
                 }
                 else{
-                  $_SESSION['msg'] = "Error : Not Enroll";
+                  $_SESSION['msg'] .= $el . "Error : Not Enroll";
                 }
+              }
             }
+            $cnt1+=1;
           }
         }
       $sql = mysqli_query($bd, "SELECT creditsum from totalcredits where studentname='" . $_POST['studentname'] . "' && studentRegno='" . $_POST['studentregno'] . "' &&  semester='" . $_POST['sem'] . "' && department='" . $_POST['department'] . "' && batch='" . $_POST['batch'] . "'");
@@ -134,7 +150,7 @@ if (isset($_POST['sendreq'])) {
       $_SESSION['errmsg'] = "only one request can be sent";
     }
     else{
-      $sql = mysqli_query($bd,"Insert into notification(from_user,to_user,message,status) values('".$_SESSION["sname"]."','admin','request for re-registering course by ".$_SESSION["sname"]."', 'Pending') ");
+      $sql = mysqli_query($bd,"Insert into notification(rollno,from_user,to_user,message,status) values(".$_SESSION["login"].",'".$_SESSION["sname"]."','admin','request for re-registering course by ".$_SESSION["sname"]."', 'Pending') ");
       if($sql!=0){
         $_SESSION["msg"] = "request sent sucessfully";
       }
@@ -284,7 +300,7 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                     for($i=1;$i<=$cr;$i++){
                               if($flag == 1){
                                 ?>
-                                <input type="checkbox" id="credit" name="credit" onchange="check(this,<?php echo $i; ?>)">
+                                <input type="checkbox" id="credit<?php echo $i; ?>" name="credit<?php echo $i; ?>" onchange="check(this,<?php echo $i; ?>)">
                                 <?php
                               } 
                               ?>
