@@ -12,6 +12,7 @@ include('includes/config.php');
 if ($_SESSION['id']!=null) {
   header('location:index.php');
 } else {
+  //$c = array();
   date_default_timezone_set('Asia/Kolkata'); 
   $currentTime = date('d-m-Y h:i:s A', time());
   if (isset($_POST['submit'])) {
@@ -23,7 +24,7 @@ if ($_SESSION['id']!=null) {
     if($cr>0){
       $e = $_POST['elective'];
     }
-    $c = $_POST['course'];
+    //$c = $_POST['course'];
     /*foreach($c as $a){
       $_SESSION['msg'] .= $a;
     }*/
@@ -32,7 +33,12 @@ if ($_SESSION['id']!=null) {
     // if (mysqli_num_rows($sql) > 0) {
       $num = mysqli_fetch_assoc($sql);
       if ($num==null || $num["creditsum"] < 30) {
-        foreach($c as $a){
+        //  for ($var = 0; $var < sizeof($c); $var++){ 
+        //    $a = $c[$var];
+        $sql10 = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and semester=". $_SESSION['semester']." and regulation='" . $_SESSION['regulation'] . "'");
+        while($rr = mysqli_fetch_assoc($sql10)){
+          $a = $rr["id"];
+        //foreach($c as $a){
           $course = $a;
           $ref = mysqli_query($bd, "SELECT * FROM courseenrolls where studentName='" . $_POST['studentname'] . "' && semester=" . $_POST['sem'] . " && course='" . $a . "' && department='" . $_POST['department'] . "' && studentRegno='" . $_POST['studentregno'] . "' && batch='" . $_POST['batch'] . "' ");
           $col = mysqli_num_rows($ref);
@@ -279,8 +285,9 @@ $ele = mysqli_num_rows(mysqli_query($bd,"Select * from courseenrolls a inner joi
                       <?php
                       $sql = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and semester=". $_SESSION['semester']." and regulation='" . $_SESSION['regulation'] . "'");
                       while ($row = mysqli_fetch_array($sql)) {
-                      ?>s
-                        <option value="<?php echo $row['id']; ?>" selected><?php echo $row['courseName']; ?></option>
+                        array_push($c,$row["id"]);
+                      ?>
+                        <option value="<?php echo $row['id']; ?>" selected disabled><?php echo $row['courseName']; ?></option>
                       <?php } ?>
                     </select>
                     <span id="course-availability-status1" style="font-size:12px;">

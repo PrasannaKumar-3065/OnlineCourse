@@ -61,6 +61,8 @@ else{
 
 <button onclick="window.location.href= 'creditenrollsem.php';">check the enroll history semesterwise</button>  </br> </br>
 
+<button onclick="window.location.href= 'final.php';">Final Format</button>  </br> </br>
+
 
                             </div>
                             </div>

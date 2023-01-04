@@ -93,7 +93,7 @@ $cnt++;
                                 </table>
 
 				<form>
-					<button type="submit" id="downloadexcel" name="export" class=btn-btn-info" value="Export to Excel">Export to excel</button>
+					<button type="submit" id="downloadexcel" name="export" class="btn-btn-info" value="Export to Excel">Export to excel</button>
 				   </form>
                             </div>
                         </div>

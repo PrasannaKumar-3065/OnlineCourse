@@ -10,7 +10,7 @@ else{
 if(isset($_POST['submit']))
 {
 
-  $ref=mysqli_query($bd, "SELECT count(*) as allcount FROM course where courseName='".$_POST['coursename']."' && courseCode='".$_POST['coursecode']."' && semester='".$_POST['semester']."' && department='".$_POST['department']."' && regulation='".$_POST['regulation']."' && credit='".$_POST['credit']."' && type='".$_POST['type']."' ");
+  $ref=mysqli_query($bd, "SELECT count(*) as allcount FROM course where courseName='".$_POST['coursename']."' && courseCode='".$_POST['coursecode']."' && semester='".$_POST['semester']."' && department='".$_POST['department']."' && regulation='".$_POST['regulation']."' && credit='".$_POST['credit']."' && type='".$_POST['type']."' && batch ='".$_POST['batch']."' ");
   $col=mysqli_fetch_array($ref);
   $allcount=$col['allcount'];
   if($allcount==0){
@@ -114,6 +114,11 @@ if(isset($_GET['del']))
 <div class="form-group">
     <label for="department">Department Name  </label>
     <input type="text" class="form-control" id="department" name="department" placeholder="Department Name" required />
+  </div>
+
+  <div class="form-group">
+    <label for="department">Department Name  </label>
+    <input type="text" class="form-control" id="batch" name="batch" placeholder="batch" required />
   </div>
 
 <div class="form-group">
