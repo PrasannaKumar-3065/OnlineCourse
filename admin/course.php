@@ -55,6 +55,8 @@ else{
 
 <button onclick="window.location.href= 'Non-CGPA.php';">Non-CGPA Course</button>  </br> </br>
 
+<button onclick="window.location.href= 'registercourse.php';">Register for course</button>  </br> </br>
+
                             </div>
                             </div>
                             </div>
