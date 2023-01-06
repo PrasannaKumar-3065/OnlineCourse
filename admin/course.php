@@ -47,15 +47,10 @@ else{
 
                         <div class="panel-body">
                        
-<button onclick="window.location.href= 'cccourse.php';">Compulsory Core Course </button>	</br>	</br>	
+<button onclick="window.location.href= 'cccourse.php';">Course Registration</button>	</br>	</br>	
 	
-<button onclick="window.location.href= 'PEC.php';">Programme Elective Course</button> </br>  </br>
 
-<button onclick="window.location.href= 'OEC.php';">Open Elective Course</button></br> </br>
-
-<button onclick="window.location.href= 'Non-CGPA.php';">Non-CGPA Course</button>  </br> </br>
-
-<button onclick="window.location.href= 'registercourse.php';">Register for course</button>  </br> </br>
+<button onclick="window.location.href= 'registercourse.php';">Course Registration Students</button>  </br> </br>
 
                             </div>
                             </div>
