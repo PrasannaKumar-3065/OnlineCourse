@@ -22,7 +22,11 @@ if(isset($_POST['submit']))
     $credit=$_POST['credit'];
     $seatlimit=$_POST['seatlimit'];
     $regulation=$_POST['regulation'];
-    $ret=mysqli_query($bd, "insert into course(courseCode,courseName,type,department,semester,credit,noofSeats,regulation) values('$coursecode','$coursename','$type','$department','$semester','$credit','$seatlimit','$regulation')");
+    $batch=$_POST['batch'];
+    $staff1 = $_POST['staff1'];
+    $staff2 = $_POST['staff2'];
+    $staff3 = $_POST['staff3'];
+    $ret=mysqli_query($bd, "insert into course(courseCode,courseName,type,department,batch,semester,staff1,staff2,staff3,credit,noofSeats,regulation) values('$coursecode','$coursename','$type','$department','$batch','$semester','$staff1','$staff2','$staff3','$credit','$seatlimit','$regulation')");
     if($ret)
     {
     $_SESSION['msg']="Course Created Successfully !!";
@@ -56,6 +60,7 @@ if(isset($_GET['del']))
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/js/autocomplete.js" rel="script" />
 </head>
 
 <body>
@@ -117,7 +122,7 @@ if(isset($_GET['del']))
   </div>
 
   <div class="form-group">
-    <label for="department">Department Name  </label>
+    <label for="department">Batch  </label>
     <input type="text" class="form-control" id="batch" name="batch" placeholder="batch" required />
   </div>
 
@@ -139,6 +144,24 @@ if(isset($_GET['del']))
   <div class="form-group">
     <label for="regulation">Regulation  </label>
     <input type="text" class="form-control" id="regulation" name="regulation" placeholder="regulation" required />
+  </div>
+
+  <div class="form-group">
+    <label for="regulation">Staff 1  </label>
+    <input type="text" class="form-control" id="staff1" name="staff1" onBlur="staff1()" placeholder="staff 1" required />
+    <span id="user-availability-status1" style="font-size:12px;">
+  </div>
+
+  <div class="form-group">
+    <label for="regulation">Staff 2  </label>
+    <input type="text" class="form-control" id="staff2" name="staff2" onBlur="staff2()" placeholder="staff 2"  />
+    <span id="user-availability-status1" style="font-size:12px;">
+  </div>
+
+  <div class="form-group">
+    <label for="regulation">Staff 3  </label>
+    <input type="text" class="form-control" id="staff3" name="staff3" onBlur="staff3()" placeholder="staff 3"  />
+    <span id="user-availability-status1" style="font-size:12px;">
   </div>
 
  <button type="submit" name="submit" class="btn btn-default">Submit</button>
@@ -195,6 +218,9 @@ if(isset($_GET['del']))
                                             <th>Credit</th>
                                             <th>Seat limit</th>
                                             <th>Regulation</th>
+                                            <th>Staff1</th>
+                                            <th>Staff2</th>
+                                            <th>Staff3</th>
                                             <th>Creation Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -218,6 +244,9 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['credit']);?></td>
                                             <td><?php echo htmlentities($row['noofSeats']);?></td>
                                             <td><?php echo htmlentities($row['regulation']);?></td>
+                                            <td><?php echo htmlentities($row['staff1']);?></td>
+                                            <td><?php echo htmlentities($row['staff2']);?></td>
+                                            <td><?php echo htmlentities($row['staff3']);?></td>
                                             <td><?php echo htmlentities($row['creationDate']);?></td>
                                             <td>
                                             <a href="edit-course.php?id=<?php echo $row['id']?>">
@@ -298,5 +327,46 @@ $cnt++;
 
 
 </body>
+<script>
+function staff1() {
+  $("#loaderIcon").show();
+jQuery.ajax({
+url: "check_tutor.php",
+data:'tut='+$("#staff1").val(),
+type: "POST",
+success:function(data){
+$("#user-availability-status1").html(data);
+$("#loaderIcon").hide();
+},
+error:function (){}
+});
+}
+function staff2() {
+  $("#loaderIcon").show();
+jQuery.ajax({
+url: "check_tutor.php",
+data:'tut='+$("#staff2").val(),
+type: "POST",
+success:function(data){
+$("#user-availability-status1").html(data);
+$("#loaderIcon").hide();
+},
+error:function (){}
+});
+}
+function staff3() {
+  $("#loaderIcon").show();
+jQuery.ajax({
+url: "check_tutor.php",
+data:'tut='+$("#staff3").val(),
+type: "POST",
+success:function(data){
+$("#user-availability-status1").html(data);
+$("#loaderIcon").hide();
+},
+error:function (){}
+});
+}
+</script>
 </html>
 <?php } ?>
