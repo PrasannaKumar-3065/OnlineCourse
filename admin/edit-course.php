@@ -14,7 +14,10 @@ if(isset($_POST['submit']))
 $coursecode=$_POST['coursecode'];
 $coursename=$_POST['coursename'];
 $seatlimit=$_POST['seatlimit'];
-$ret=mysqli_query($bd, "update course set courseCode='$coursecode',courseName='$coursename',noofSeats='$seatlimit',updationDate='$currentTime' where id='$id'");
+$staff1=$_POST['staff1'];
+$staff2=$_POST['staff2'];
+$staff3=$_POST['staff3'];
+$ret=mysqli_query($bd, "update course set courseCode='$coursecode',courseName='$coursename',noofSeats='$seatlimit',staff1='$staff1',staff2='$staff2',staff3='$staff3',updationDate='$currentTime' where id='$id'");
 if($ret)
 {
 $_SESSION['msg']="Course Updated Successfully !!";
@@ -33,7 +36,7 @@ else
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Admin | Course</title>
+    <title>Admin | Course Updation</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -52,7 +55,7 @@ else
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Course  </h1>
+                        <h1 class="page-head-line">Course Updation </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -87,6 +90,21 @@ while($row=mysqli_fetch_array($sql))
 <div class="form-group">
     <label for="seatlimit">Seat limit  </label>
     <input type="text" class="form-control" id="seatlimit" name="seatlimit" placeholder="Seat limit" value="<?php echo htmlentities($row['noofSeats']);?>" required />
+  </div>  
+
+  <div class="form-group">
+    <label for="staff1">Staff 1 </label>
+    <input type="text" class="form-control" id="staff1" name="staff1" placeholder="Staff 1" value="<?php echo htmlentities($row['staff1']);?>" required />
+  </div>  
+
+  <div class="form-group">
+    <label for="staff2">Staff 2  </label>
+    <input type="text" class="form-control" id="staff2" name="staff2" placeholder="Staff 2" value="<?php echo htmlentities($row['staff2']);?>" required />
+  </div>  
+
+  <div class="form-group">
+    <label for="staff3">Staff 3  </label>
+    <input type="text" class="form-control" id="staff3" name="staff3" placeholder="Staff 3" value="<?php echo htmlentities($row['staff3']);?>" required />
   </div>  
 
 

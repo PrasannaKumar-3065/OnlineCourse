@@ -19,6 +19,7 @@ if(isset($_POST['submit']))
         if($row1 = mysqli_fetch_assoc($sql2)){
             $sql1 = mysqli_query($bd,"Delete from courseenrolls where studentname = '".$row1["studentName"]."' and semester = ".$row1["semester"]." "); 
             $sql1 = mysqli_query($bd,"Delete from totalcredits where studentname = '".$row1["studentName"]."' and semester = ".$row1["semester"]." ");
+            $sql1 = mysqli_query($bd,"update noncgpa set status = 'Approved', course = 0, semester = 0 where semester = ".$row1["semester"]." ");
             $sql1 = mysqli_query($bd,"update notification set status = 'Approved' where id = ".$id." ");
         }        
     }

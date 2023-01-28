@@ -5,6 +5,7 @@
                 <div class="navbar-collapse collapse ">
                     <ul id="menu-top" class="nav navbar-nav navbar-right">
                         <li><a href="enroll.php">Enroll for Course </a></li>
+                        <li><a href="staff.php">Staff Selection </a></li>
                         <li><a href="enroll-history.php">Enroll History </a></li>
                         <li><a href="non-cgpa.php">Non CGPA</a></li>
                         <li><a href="my-profile.php">My Profile</a></li>

@@ -36,7 +36,7 @@ if(isset($_POST['submit']))
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Admin | Tutor Registration</title>
+    <title>Admin | Staff Registration</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -55,7 +55,7 @@ if(isset($_POST['submit']))
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Tutor Registration  </h1>
+                        <h1 class="page-head-line">Staff Registration  </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -63,7 +63,7 @@ if(isset($_POST['submit']))
                     <div class="col-md-6">
                         <div class="panel panel-default">
                         <div class="panel-heading">
-                          Tutor Registration
+                          Staff Registration
                         </div>
 <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
 
@@ -71,8 +71,8 @@ if(isset($_POST['submit']))
                         <div class="panel-body">
                        <form name="dept" method="post">
    <div class="form-group">
-    <label for="tutorname">Tutor Name  </label>
-    <input type="text" class="form-control" id="tutorname" name="tutorname" placeholder="Tutor Name" required />
+    <label for="tutorname">Staff Name  </label>
+    <input type="text" class="form-control" id="tutorname" name="tutorname" placeholder="Staff Name" required />
     
   </div>
 

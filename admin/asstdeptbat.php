@@ -28,7 +28,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Admin | Tutors</title>
+    <title>Admin | Staff Creation</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -45,7 +45,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="page-head-line">Tutors </h1>
+                    <h1 class="page-head-line">Staffs </h1>
                 </div>
             </div>
             <div class="row">
@@ -53,7 +53,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Add tutor
+                            Add Staff
                         </div>
 
                         <div class="panel-body">
@@ -82,7 +82,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Manage Tutors
+                            Manage Staffs
                         </div>
 
                         <div class="panel-body">
@@ -91,7 +91,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tutor Name </th>
+                                            <th>Staff Name </th>
                                             <th>Department </th>
                                         </tr>
                                     </thead>

@@ -17,7 +17,7 @@
                                <li><a href="semesterFor.php">Semester edit</a></li>
                                <li><a href="excel.php">Enroll History</a></li>
                                <li><a href="user-log.php">Student Logs </a></li>
-                               <li><a href="asstdeptbat.php">Tutors </a></li>
+                               <li><a href="asstdeptbat.php">Staffs </a></li>
                                <li><a href="notification.php"><span>Inbox</span><span style="background-color:red" class="badge"><?php echo $noti;?></span></a></li>
                             <li><a href="logout.php">Logout</a></li>
 
