@@ -77,7 +77,7 @@ if(isset($_POST['submit']))
   </div>
 
   <div class="form-group">
-    <label for="username">User Name  </label>
+    <label for="staffid">Staff ID  </label>
     <input type="text" class="form-control" id="username" name="username" onBlur="userAvailability()" placeholder="User Name" required />
     <span id="user-availability-status1" style="font-size:12px;">
   </div>

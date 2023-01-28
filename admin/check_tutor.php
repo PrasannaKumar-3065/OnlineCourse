@@ -10,6 +10,9 @@ if(!empty($_POST["tut"])) {
 	echo "<span style='color:red'> tutor with this username Already Registered.</span>";
 	echo "<script>$('#submit').prop('disabled',true);</script>";
 	}
+	else{
+		echo "<script>$('#submit').prop('disabled',false);</script>";
+	}
 }
 
 
