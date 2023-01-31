@@ -114,7 +114,13 @@ if (isset($_GET["id"])) {
                 while ($row = mysqli_fetch_assoc($sql1)) { ?>
                     <div class="panel-body">
                       <div class="form-group">
-                        <label for="Pincode"><?php echo $row["type"].":".$row["platform"]." - ".$row["title"];?> - Proof:</label> <a href="non-cgpa.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">delete</a>
+                        <label for="Pincode"><?php echo $row["type"].":".$row["platform"]." - ".$row["title"];?> - Proof:</label><!-- <a href="non-cgpa.php?id=<?php echo $row["id"]; ?>" class="btn btn-danger">delete</a> -->
+                        <label>Status: <?php echo $row["status"]; ?></label>
+                        <?php if($row["status"] == "Completed"){
+                          $sql2 = mysqli_fetch_assoc(mysqli_query($bd,"Select * from course where id = ".$row["course"]."; "));
+                          ?>
+                            <label><?php echo "Credit transferred course Course: ".$sql2["courseCode"] .", Semester:".$row["semester"]; ?></label>
+                        <?php } ?>
                         <?php if ($row['proof'] == "") { ?>
                           <img src="studentphoto/noimage.png" width="200" height="200"><?php } else { ?>
                           <!-- <img src="data:image/jpeg;base64,<?php echo $row['proof']; ?>" width="200" height="200"> -->
