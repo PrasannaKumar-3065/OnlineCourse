@@ -57,16 +57,15 @@ if ($_SESSION['id'] != null) {
         }
       }
       if ($cr > 0) {
-        $cnt1 = 0;
-        for ($i = 1; $i <= $cr; $i++) {
-          if (isset($_POST["credit" . $i])) {
-            $o = mysqli_query($bd, "update noncgpa set status = 'Completed', course = " . $e[$cnt1] . ", semester = " . $sem . " where name = " . $_SESSION["login"] . " and type = 'Credit Transfer' and status = 'Approved' limit 1 ");
-            if ($o) {
-              $_SESSION['msg'] .= $e[$cnt1] . " Credit Transferred Successfully !! ";
-            } else {
-              $_SESSION['msg'] .= $e[$cnt1] . "Error : Not Transfered";
-            }
-            $cnt1++;
+
+        $transfer = $_POST["credit"];
+        foreach($transfer as $t){
+          $sql =mysqli_fetch_assoc(mysqli_query($bd, "select * from course where type= 'Elective" . $t . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' limit 1"));
+          $sql1 = mysqli_query($bd, "update noncgpa set course = ".$sql["id"].", semester = ".$_SESSION["semester"].", status = 'Completed' where name=".$_SESSION["login"]." and status = 'Approved' limit 1; ");
+          if($sql1){
+            $_SESSION["msg"] .= $sql["id"]." Credit transfer sucessful!! ";
+          }else{
+            $_SESSION["msg"] .= $sql["id"]." Credit transfer unsucessful!! ";
           }
         }
         foreach ($e as $el) {
@@ -311,7 +310,7 @@ function courseAvailability(value) {
                       for ($i = 1; $i <= $cr; $i++) {
                         if ($flag == 1) {
                         ?>
-                                    <input type="checkbox" id="credit<?php echo $i; ?>" name="credit<?php echo $i; ?>"
+                                    <input type="checkbox" id="credit<?php echo $i; ?>" name="credit[]" value="<?php echo $i; ?>"
                                         onchange="check(this,<?php echo $i; ?>)">
                                     <?php
                         }
@@ -321,7 +320,6 @@ function courseAvailability(value) {
                                         <select class="form-select" aria-label="Default select example"
                                             name="elective[]" id="elective<?php echo $i; ?>"
                                             onchange="courseAvailability(this.value)" required="required">
-
                                             <?php
                             $sql = mysqli_query($bd, "select * from course where type= 'Elective" . $i . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' ");
                             while ($row = mysqli_fetch_array($sql)) {
@@ -349,10 +347,6 @@ function courseAvailability(value) {
             </div>
 
         </div>
-
-
-
-
 
     </div>
     </div>

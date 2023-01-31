@@ -88,9 +88,7 @@ while($row=mysqli_fetch_array($sql))
                                         </tr>
 <?php 
 $cnt++;
-} ?>
-
-                                        
+} ?>    
                                     </tbody>
                                 </table>
                             </div>
