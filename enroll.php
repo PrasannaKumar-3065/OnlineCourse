@@ -1,6 +1,9 @@
 <?php
 session_start();
 include('includes/config.php');
+if ( isset($_GET['msg'])){
+  $_SESSION["msg"] = "wait till all the students completes registration";
+}
 $rst = mysqli_fetch_assoc(mysqli_query($bd, "select elective from semester where id=" . $_SESSION['semester'] . " "));
 $cr = $rst["elective"];
 $noncgpa = mysqli_query($bd, "select * from noncgpa where name = " . $_SESSION["login"] . " and type = 'Credit Transfer' and status = 'Approved' ");
@@ -211,7 +214,7 @@ function courseAvailability(value) {
                             Course Enroll
                         </div>
                         <font color="green" align="center">
-                            <?php echo htmlentities($_SESSION['msg']); ?><?php echo htmlentities($_SESSION['msg'] = ""); ?>
+                            <?php echo htmlentities($_SESSION['msg']); ?><?php $_SESSION['msg'] = ""; ?>
                         </font>
                         <?php $sql = mysqli_query($bd, "select * from students where StudentRegno='" . $_SESSION['login'] . "'");
               $cnt = 1;

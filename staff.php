@@ -5,6 +5,14 @@ if (strlen($_SESSION['login']) == "") {
   header('location:index.php');
 }
 
+//$count = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
+
+// $sql = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
+// $sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." group by studentRegno "));
+// if($sql != $sql2){
+//   header('location:enroll.php?msg=wait');
+// }
+
 function staff($bd,$staffid){
   $sql = mysqli_fetch_assoc(mysqli_query($bd,"select tutorname from tutors where username = '".$staffid."';"));
   $staffname = $sql["tutorname"];
@@ -41,6 +49,18 @@ if($flag==0){
   <link href="assets/css/bootstrap.css" rel="stylesheet" />
   <link href="assets/css/font-awesome.css" rel="stylesheet" />
   <link href="assets/css/style.css" rel="stylesheet" />
+<script>
+  function staffAvailability(staff,course) {
+    $.ajax({
+        type: "GET",
+        url: "staff.php",
+        data: 'sid='+staff+'&course='+course,
+        success: function(result) {
+            console.log("success");
+        }
+    });
+};
+</script>
 </head>
 
 <body>
@@ -78,7 +98,7 @@ if($flag==0){
 
                     ?>
                   <label for="Course"><?php echo $row["courseCode"] .":". $row["courseName"] ; ?></label>
-                  <select class="form-select" name="staffs[]" id="staffs[]" required="required">
+                  <select class="form-select" name="staffs[]" id="staffs[]" onchange="staffAvailability(this.value,<?php $row['id']; ?>)" required="required">
                       <option value="<?php echo htmlentities($row['staff1']."+".$row["course"]); ?>"><?php echo staff($bd,$row['staff1']); ?></option>
                       <?php 
                         if(!empty($row["staff2"])){ ?>
