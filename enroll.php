@@ -60,15 +60,16 @@ if ($_SESSION['id'] != null) {
         }
       }
       if ($cr > 0) {
-
-        $transfer = $_POST["credit"];
-        foreach($transfer as $t){
-          $sql =mysqli_fetch_assoc(mysqli_query($bd, "select * from course where type= 'Elective" . $t . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' limit 1"));
-          $sql1 = mysqli_query($bd, "update noncgpa set course = ".$sql["id"].", semester = ".$_SESSION["semester"].", status = 'Completed' where name=".$_SESSION["login"]." and status = 'Approved' limit 1; ");
-          if($sql1){
-            $_SESSION["msg"] .= $sql["id"]." Credit transfer sucessful!! ";
-          }else{
-            $_SESSION["msg"] .= $sql["id"]." Credit transfer unsucessful!! ";
+        if(isset($_POST["credit"])){
+          $transfer = $_POST["credit"];
+          foreach($transfer as $t){
+            $sql =mysqli_fetch_assoc(mysqli_query($bd, "select * from course where type= 'Elective" . $t . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' limit 1"));
+            $sql1 = mysqli_query($bd, "update noncgpa set course = ".$sql["id"].", semester = ".$_SESSION["semester"].", status = 'Completed' where name=".$_SESSION["login"]." and status = 'Approved' limit 1; ");
+            if($sql1){
+              $_SESSION["msg"] .= $sql["id"]." Credit transfer sucessful!! ";
+            }else{
+              $_SESSION["msg"] .= $sql["id"]." Credit transfer unsucessful!! ";
+            }
           }
         }
         foreach ($e as $el) {
