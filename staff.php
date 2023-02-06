@@ -51,15 +51,19 @@ if($flag==0){
   <link href="assets/css/style.css" rel="stylesheet" />
 <script>
   function staffAvailability(staff,course) {
-    $.ajax({
-        type: "GET",
-        url: "staff.php",
-        data: 'sid='+staff+'&course='+course,
-        success: function(result) {
-            console.log("success");
-        }
+    $("#loaderIcon").show();
+    jQuery.ajax({
+       
+        url: "staff_avalability.php",
+        data: 'sid='+staffs+'&course='+course,
+        type: "POST",
+        success: function(data) {
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+        },
+        error:function(){}
     });
-};
+}
 </script>
 </head>
 
@@ -98,7 +102,7 @@ if($flag==0){
 
                     ?>
                   <label for="Course"><?php echo $row["courseCode"] .":". $row["courseName"] ; ?></label>
-                  <select class="form-select" name="staffs[]" id="staffs[]" onchange="staffAvailability(this.value,<?php $row['id']; ?>)" required="required">
+                  <select class="form-select" name="staffs[]" id="staffs[]" onchange="staffAvailability(this.value, <?php $row['id']; ?>)" required="required">
                       <option value="<?php echo htmlentities($row['staff1']."+".$row["course"]); ?>"><?php echo staff($bd,$row['staff1']); ?></option>
                       <?php 
                         if(!empty($row["staff2"])){ ?>
@@ -107,8 +111,10 @@ if($flag==0){
                         if(!empty($row["staff3"])){ ?>
                           <option value="<?php echo htmlentities($row['staff3']."+".$row["course"]); ?>"><?php echo staff($bd,$row['staff3']); ?></option>
                       <?php } ?>
+                                       <span id="user-availability-status1" style="font-size:12px;">
                   </select>
                   <?php } ?>
+                  <span id="user-availability-status1" style="font-size:12px;">
                 </div>
 
                 <button type="submit" name="submit" id="submit" class="btn btn-default">Submit</button>

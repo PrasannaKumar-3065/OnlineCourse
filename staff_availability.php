@@ -5,11 +5,11 @@
 		header('location:index.php');
 	}
 	else{
-		if(!empty($_GET["course"])) {
+		if(!empty($_POST["course"]) && !empty($_POST["sid"])) {
 			$count = 0;
-				$cid= $_GET["course"];
-				$sid = $_GET["sid"];
-				$sql1 = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
+				$cid= $_POST["course"];
+				$sid = $_POST["sid"];
+				$sql1 = mysqli_num_rows(mysqli_query($bd,"select * from courseenrolls where course = ".$cid." and department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." "));
 				$sql = mysqli_fetch_assoc(mysqli_query($bd,"select * from course where course = ".$cid." "));
 				if($sql["staff1"]!="" && $sql["staff2"]!="" && $sql["staff3"]!=""){
 					$count = $sql1/3;
@@ -23,9 +23,9 @@
 					$count = $sql1/1;
 					$count +=5;
 				}
-				$count = -1;
 				$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = ".$cid." and staff = '".$sid."' and department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." "));
-				if($count == 55){
+				if($count >= $sql2){
+					echo '<script>alert("Staff registration limit is not exceeded.");</script>';
 					echo "<script>$('#submit').prop('disabled',false);</script>";
 					// echo "<script>$('#submit').prop('disabled',true);</script>";
 				}
