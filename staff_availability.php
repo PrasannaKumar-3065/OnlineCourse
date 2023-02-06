@@ -24,8 +24,8 @@
 					$count +=5;
 				}
 				$count = -1;
-				$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = ".cid." and staff = '".$sid."' and department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." "));
-				if(count == 55){
+				$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = ".$cid." and staff = '".$sid."' and department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." "));
+				if($count == 55){
 					echo "<script>$('#submit').prop('disabled',false);</script>";
 					// echo "<script>$('#submit').prop('disabled',true);</script>";
 				}
