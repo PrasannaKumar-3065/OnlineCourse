@@ -19,8 +19,8 @@ session_start();
         $type= "";
         $student = array();
         $course = array();
-        $sql = mysqli_query($bd,"select * from students where batch = '2023-2027';");
-        $sql1 = mysqli_query($bd,"SELECT * FROM course WHERE courseCode = '19SH11C';");
+        $sql = mysqli_query($bd,"select * from students where batch = '".$_POST["batch"]."' ");
+        $sql1 = mysqli_query($bd,"SELECT * FROM course WHERE courseCode = '".$_POST["code"]."' ");
         while($row = mysqli_fetch_assoc($sql1)){
             $id = $row["id"];
             $type = $row["type"];
@@ -34,7 +34,7 @@ session_start();
                     $_SESSION["msg"] .= $count." ";
                 }
         }
-        $session["msg"] = "Course registered for ".$count." students for batch ". $_POST["batch"];
+        $_SESSION["msg"] = "Course registered for ".$count." students for batch ". $_POST["batch"];
     }
 ?>
 <body>
