@@ -93,11 +93,12 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             <th>#</th>
                                             <th>Staff Name </th>
                                             <th>Department </th>
+                                            <th>Staff Role</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            $sql = mysqli_query($bd, "select * from tutors");
+                                            $sql = mysqli_query($bd, "select * from tutors where role = 'Tutor' or role = 'CI' ");
                                             $cnt = 1;
                                             while ($row = mysqli_fetch_array($sql)) {
                                             ?>
@@ -106,6 +107,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         <tr>
                                             <td><?php echo htmlentities($row['id']); ?></td>
                                             <td><?php echo htmlentities($row['tutorname']); ?></td>
+                                            <td><?php echo htmlentities($row['role']); ?></td>
                                             <td><?php echo htmlentities($row['department']); ?></td>
                                             <td>
                                                 <a href="asstdeptbat.php?id=<?php echo $row['id'] ?>&del=delete"

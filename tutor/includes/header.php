@@ -34,7 +34,7 @@ error_reporting(0);
                 </button>
 			
 			
-                <a class="navbar-brand" href="#" style="color:#fff; font: size 30px; line-height:24px; ">
+                <a class="navbar-brand" href="#" style="color:#fff; font-size:30px;8px; line-height:24px; ">
 		
                   NATIONAL ENGINEERING COLLEGE
                 </a>
@@ -43,7 +43,7 @@ error_reporting(0);
 		
 		
             <div class="left-div">
-                <img src="nec.png" style="display:none;" height=80px; width=80px;>
+                <img src="nec.png" style:"display:none; height=80px; width=80px;">
 		
         </div>
 

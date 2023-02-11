@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include('includes/config.php');
@@ -6,6 +5,7 @@ if(strlen($_SESSION['tlogin']) == "")
     {   
 header('location:index.php');
 }
+$reg = $_GET["id"];
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ header('location:index.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>HOD | Students Progress</title>
+    <title>HOD |  Batch Students</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -34,7 +34,7 @@ header('location:index.php');
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Department Students Progress </h1>
+                        <h1 class="page-head-line"> <?php $reg ?> Batch Students</h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -44,7 +44,7 @@ header('location:index.php');
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Select Batch
+                            Student Progress
                         </div>
                         
                         <div class="panel-body">
@@ -53,13 +53,15 @@ header('location:index.php');
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Batch Year </th>
+                                            <th>Reg No </th>
+                                            <th>Student Name </th>
+                                             <th>Reg Date</th>
                                              <th>Action</th>
                                         </tr>
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from students where department = '".$_SESSION["department"]."' group by department ");
+$sql=mysqli_query($bd, "select * from students where batch= '".$_SESSION["batch"]."' ");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {
@@ -68,15 +70,21 @@ while($row=mysqli_fetch_array($sql))
 
                                         <tr>
                                             <td><?php echo $cnt;?></td>
-                                            <td><?php echo htmlentities($row['batch']);?></td>
+                                            <td><?php echo htmlentities($row['StudentRegno']);?></td>
+                                            <td><?php echo htmlentities($row['studentName']);?></td>
+                                            <td><?php echo htmlentities($row['creationdate']);?></td>
                                             <td>              
-<a href="showstudents.php?id=<?php echo $row['batch']?>">
-<button type="submit" name="submit" id="submit" class="btn btn-danger">View Students</button>
-</a>
 
+</a>
+<a href="showcourses.php?id=<?php echo $row['StudentRegno']?>">
+<button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>
+</a>
+<a href="showcertificates.php?id=<?php echo $row['StudentRegno']?>">
+<button type="submit" name="submit" id="submit" class="btn btn-default">Certificates</button>
+</a>
                                    </td>
                                         </tr>
-                                        <tr id="<?php echo $row['batch']?>"></tr>
+                                        <tr id="<?php echo $row['StudentRegno']?>"></tr>
 <?php 
 $cnt++;
 } ?>

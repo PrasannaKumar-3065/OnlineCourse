@@ -9,18 +9,30 @@ if (strlen($_SESSION['alogin']) == 0) {
         $sql = mysqli_query($bd, "select * from tutors where id = " . $id . " ");
         if ($rows = mysqli_fetch_assoc($sql)) {
             $_SESSION["temp"] = $rows["username"];
+            $_SESSION["cit"] = $rows["role"];
         }
     }
+
 
     if (isset($_POST["submit"])) {
         $roll1 = $_POST["num1"];
         $roll2 = $_POST["num2"];
+        if($_SESSION["cit"] == "Tutor"){
         $sql = mysqli_query($bd, "update students set tutorname='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
         if ($sql) {
             $_SESSION["delmsg"] = "Tutor assigned for students from " . $roll1 . " to " . $roll2;
         } else {
             $_SESSION["delmsg"] = "Tutor assigned failed";
         }
+    }
+    else if($_SESSION["cit"] == "CI"){
+        $sql = mysqli_query($bd, "update students set CI='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
+        if ($sql) {
+            $_SESSION["delmsg"] = "Class Incharge assigned for students from " . $roll1 . " to " . $roll2;
+        } else {
+            $_SESSION["delmsg"] = "Class Incharge assigned failed";
+        }
+    }
     }
 
 
