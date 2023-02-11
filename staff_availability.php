@@ -25,7 +25,7 @@ function check($bd, $cid, $sid){
 	if($sql2>0){
 		echo ("<script>console.log('sql2 success');</script>");
 	}
-	if ($count < $sql2) {
+	if ($count >= $sql2) {
 		echo '<script>console.log("'.$sql2.'staff available");</script>';
 		echo "<script>$('#submit').prop('disabled',false);</script>";
 		// echo "<script>$('#submit').prop('disabled',true);</script>";
