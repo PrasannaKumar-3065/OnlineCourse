@@ -91,6 +91,7 @@ if(isset($_POST['submit']))
 <div class="form-group">
     <label for="role">Role  </label>
     <select  class="form-control" id="role" name="role" placeholder="Role of the staff" required >
+    <option value="Tutor"> Tutor </option>
       <option value="CI"> Class Incharge </option>
       <option value="HOD"> HOD </option>
     </select>
