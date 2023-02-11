@@ -25,15 +25,17 @@ function check($bd, $cid, $sid){
 	if($sql2>0){
 		echo ("<script>console.log('sql2 success');</script>");
 	}
-	if ($count >= $sql2) {
+	if ($count < $sql2) {
 		echo '<script>console.log("'.$sql2.'staff available");</script>';
 		echo "<script>$('#submit').prop('disabled',false);</script>";
 		// echo "<script>$('#submit').prop('disabled',true);</script>";
 	} else {
 		echo '<script>alert("Staff registration limit exceeded. Choose another staff");</script>';
+		echo "<script>var a = document.querySelectorAll('select');for( i=0; i<a.length;i++){a[i].selectedIndex = -1;}</script>";
 		echo "<script>$('#submit').prop('disabled',true);</script>";
 		header("staff.php");
 	}
+	$_SESSION["iterator"]+=1;
 }
 
 session_start();

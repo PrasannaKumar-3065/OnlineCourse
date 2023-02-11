@@ -8,11 +8,11 @@ if (strlen($_SESSION['login']) == "")
 
 $count = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
 
- $sql = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
- $sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." group by studentRegno "));
- if($sql != $sql2){
-   header('location:enroll.php?msg=wait');
- }
+//  $sql = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
+//  $sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." group by studentRegno "));
+//  if($sql != $sql2){
+//    header('location:enroll.php?msg=wait');
+//  }
 
 function staff($bd, $staffid)
 {
@@ -124,7 +124,7 @@ if ($flag == 0) {
                       <span id="user-availability-status1" style="font-size:12px;">
                     </div>
 
-                    <button type="submit" name="submit" id="submit" class="btn btn-default">Submit</button>
+                    <button onload="reset()" type="submit" name="submit" id="submit" class="btn btn-default">Submit</button>
                   <?php } else {
                       ?>
                     <div class="panel-body">
@@ -144,7 +144,12 @@ if ($flag == 0) {
         </div>
 
       </div>
-
+<script>
+    var a = document.querySelectorAll('select');
+        for( i=0; i<a.length;i++){
+          a[i].selectedIndex = -1;
+        }
+  </script>
 
 
 
