@@ -67,7 +67,7 @@ $sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dep
                             $sta = mysqli_fetch_assoc(mysqli_query($bd,"Select * from course where id = ".$courses[$var].";"));
                             ?>
                             <script>console.log('<?php echo $courses[$var]; ?>');</script>
-                            <td style="border: 1px solid black; text-align: left;"><?php echo staffid($bd,$sta["staff1"]); ?><br><?php echo staffid($bd,$sta["staff2"]); ?><br><?php echo staffid($bd,$sta["staff3"]);?><br></td><?php } ?> 
+                            <td style="border: 1px solid black; text-align: left;"><?php echo staffid($bd,$sta["staff1"]); ?>&#10;<?php echo staffid($bd,$sta["staff2"]); ?>&#10;<?php echo staffid($bd,$sta["staff3"]);?>&#10;</td><?php } ?> 
                 </tr>
                         
                 </tr>
