@@ -26,25 +26,29 @@ if(isset($_POST['submit']))
     $username=$_POST['username'];
     $password=md5($_POST['password']);
 $query=mysqli_query($bd, "SELECT * FROM tutors WHERE username='$username' and password='$password' ");
-if(mysqli_num_rows($query)>0)
+$role = mysqli_fetch_assoc($query);
+if($role["role"] = 'tutor' || 'Tutor' || 'TUTOR'){
+    if(mysqli_num_rows($query)>0)
 {
 $num=mysqli_fetch_array($query);
 $extra="select.php";
 $_SESSION['tlogin']=$username;
 $_SESSION['id']=$num['username'];
 $_SESSION['tname']=$num['tutorname'];
+$_SESSION['role']=$num['role'];
 $_SESSION['department']=$num['department'];
+
 $uip=get_client_ip();
 $status=1;
 $flag = mysqli_num_rows(mysqli_query($bd,"select * from tutorlog where username='".$username."' "));
-$log=mysqli_query($bd, "insert into userlogs(username,userip,status) values('".$_SESSION['tlogin']."','$uip','$status')");
+$log=mysqli_query($bd, "insert into tutorlog(username,userip,status) values('".$_SESSION['tlogin']."','$uip','$status')");
 $host=$_SERVER['HTTP_HOST'];
 $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
 if($flag < 1){
     header("location:change-password.php");
 }
 else{
-header("location:StudentProgress.php");
+header("location:mystudents.php");
 }
 exit();
 }
@@ -58,6 +62,77 @@ header("index.php");
 // header("location:http://$host$uri/$extra");
 }
 }
+else if($role["role"] = 'classincharge' || 'ClassIncharge' ||  "Class Incharge" || "CLASSINCHARGE"){
+
+if(mysqli_num_rows($query)>0)
+{
+$num=mysqli_fetch_array($query);
+$extra="select.php";
+$_SESSION['tlogin']=$username;
+$_SESSION['id']=$num['username'];
+$_SESSION['tname']=$num['tutorname'];
+$_SESSION['role']=$num['role'];
+$_SESSION['department']=$num['department'];
+$uip=get_client_ip();
+$status=1;
+$flag = mysqli_num_rows(mysqli_query($bd,"select * from tutorlog where username='".$username."' "));
+$log=mysqli_query($bd, "insert into tutorlog(username,userip,status) values('".$_SESSION['tlogin']."','$uip','$status')");
+$host=$_SERVER['HTTP_HOST'];
+$uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+if($flag < 1){
+    header("location:change-password.php");
+}
+else{
+header("location:StudentProgressci.php");
+}
+exit();
+}
+else
+{
+$_SESSION['errmsg']="Invalid username or Password";
+header("index.php");
+// $extra="index.php";
+// $host  = $_SERVER['HTTP_HOST'];
+// $uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+// header("location:http://$host$uri/$extra");
+}
+}
+else if($role["role"] = 'HOD' || 'hod' || 'Hod'){
+
+    if(mysqli_num_rows($query)>0)
+    {
+    $num=mysqli_fetch_array($query);
+    $extra="select.php";
+    $_SESSION['tlogin']=$username;
+    $_SESSION['id']=$num['username'];
+    $_SESSION['tname']=$num['tutorname'];
+    $_SESSION['role']=$num['role'];
+    $_SESSION['department']=$num['department'];
+    $uip=get_client_ip();
+    $status=1;
+    $flag = mysqli_num_rows(mysqli_query($bd,"select * from tutorlog where username='".$username."' "));
+    $log=mysqli_query($bd, "insert into tutorlog(username,userip,status) values('".$_SESSION['tlogin']."','$uip','$status')");
+    $host=$_SERVER['HTTP_HOST'];
+    $uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+    if($flag < 1){
+        header("location:change-password.php");
+    }
+    else{
+    header("location:StudentProgresshod.php");
+    }
+    exit();
+    }
+    else
+    {
+    $_SESSION['errmsg']="Invalid username or Password";
+    header("index.php");
+    // $extra="index.php";
+    // $host  = $_SERVER['HTTP_HOST'];
+    // $uri  = rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
+    // header("location:http://$host$uri/$extra");
+    }
+}
+}
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +143,7 @@ header("index.php");
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Tutor Login</title>
+    <title>STAFF Login</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
