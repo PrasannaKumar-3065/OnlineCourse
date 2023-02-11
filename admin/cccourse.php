@@ -305,7 +305,10 @@ if (strlen($_SESSION['alogin']) == 0) {
               $credit = $row[5];
               $noofSeats = $row[6];
               $regulation = $row[7];
-              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,semester,credit,noofSeats,regulation) VALUES('', '$courseCode','$courseName','$type','$department', '$semester','$credit','$noofSeats','$regulation')");
+              $staff1 = $row[8];
+              $staff2 = $row[9];
+              $staff3 = $row[10];
+              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,semester,credit,noofSeats,regulation,staff1,staff2,staff3) VALUES('', '$courseCode','$courseName','$type','$department', '$semester','$credit','$noofSeats','$regulation','$staff1','$staff2','$staff3')");
             }
 
             echo
