@@ -70,8 +70,21 @@ if (strlen($_SESSION['tlogin']) == "") {
                     </div>
 
                     <div class="form-group">
-                      <label for="studentregno">Name</label>
-                      <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo htmlentities($row['tutorname']); ?>" placeholder="Student Reg no" readonly />
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo htmlentities($row['tutorname']); ?>"  readonly />
+
+                    </div>
+
+                    <div class="form-group">
+                      <label for="role">Role</label>
+                      <input type="text" class="form-control" id="role" name="role" value="<?php echo htmlentities($row['role']); ?>"  readonly />
+
+                    </div>
+
+                    
+                    <div class="form-group">
+                      <label for="department">Department</label>
+                      <input type="text" class="form-control" id="department" name="department" value="<?php echo htmlentities($row['department']); ?>"  readonly />
 
                     </div>
 

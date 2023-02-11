@@ -6,6 +6,11 @@
                     <ul id="menu-top" class="nav navbar-nav navbar-right">
                         <li><a href="mystudents.php">My Students</a></li>
                         <li><a href="my-profile.php">My Profile</a></li>
+                        <?php if($_session["role"] == "HOD"){ ?>
+                            <li><a href="studentprogresshod.php">Students Progress</a></li>
+                        <?php }else if($_session["role"] == "HOD"){ ?>
+                            <li><a href="studentprogressci.php">Class Incharge Students</a></li>
+                            <?php } ?>
                         <li><a href="change-password.php">Change Password</a></li>
                         <li><a href="logout.php">Logout</a></li>
                     </ul>

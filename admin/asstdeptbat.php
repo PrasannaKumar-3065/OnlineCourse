@@ -174,14 +174,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 
             $tutorname = $row[0];
-            $tutor = $row[1];
-            $type = $row[2];
-            $department = $row[3];
-            $semester = $row[4];
-            $credit = $row[5];
-            $noofSeats = $row[6];
-            $regulation = $row[7];
-            mysqli_query($bd, "INSERT INTO tutors() VALUES()");
+            $username = $row[1];
+            $password = $row[2];
+            $role = $row[3];
+            $department = $row[4];
+            mysqli_query($bd, "INSERT INTO tutors(tutorname,username,password,role,department) VALUES($tutorname,$username,$password,$role,$department)");
         }
 
         echo
