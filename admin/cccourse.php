@@ -119,7 +119,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="department">Batch </label>
+                                    <label for="batch">Batch </label>
                                     <input type="text" class="form-control" id="batch" name="batch" placeholder="batch"
                                         required />
                                 </div>
@@ -225,6 +225,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         <th>Credit</th>
                                         <th>Seat limit</th>
                                         <th>Regulation</th>
+                                        <th>Batch</th>
                                         <th>Staff1</th>
                                         <th>Staff2</th>
                                         <th>Staff3</th>
@@ -250,6 +251,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         <td><?php echo htmlentities($row['credit']); ?></td>
                                         <td><?php echo htmlentities($row['noofSeats']); ?></td>
                                         <td><?php echo htmlentities($row['regulation']); ?></td>
+                                        <td><?php echo htmlentities($row['batch']); ?></td>
                                         <td><?php echo htmlentities($row['staff1']); ?></td>
                                         <td><?php echo htmlentities($row['staff2']); ?></td>
                                         <td><?php echo htmlentities($row['staff3']); ?></td>
@@ -301,14 +303,15 @@ if (strlen($_SESSION['alogin']) == 0) {
               $courseName = $row[1];
               $type = $row[2];
               $department = $row[3];
-              $semester = $row[4];
-              $credit = $row[5];
-              $noofSeats = $row[6];
-              $regulation = $row[7];
-              $staff1 = $row[8];
-              $staff2 = $row[9];
-              $staff3 = $row[10];
-              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,semester,credit,noofSeats,regulation,staff1,staff2,staff3) VALUES('', '$courseCode','$courseName','$type','$department', '$semester','$credit','$noofSeats','$regulation','$staff1','$staff2','$staff3')");
+              $batch = $row[4];
+              $semester = $row[5];
+              $credit = $row[6];
+              $noofSeats = $row[7];
+              $regulation = $row[8];
+              $staff1 = $row[9];
+              $staff2 = $row[10];
+              $staff3 = $row[11];
+              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,batch,semester,credit,noofSeats,regulation,staff1,staff2,staff3) VALUES('', '$courseCode','$courseName','$type','$department','$batch', '$semester','$credit','$noofSeats','$regulation','$staff1','$staff2','$staff3')");
             }
 
             echo

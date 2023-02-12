@@ -7,20 +7,6 @@ header('location:index.php');
 }
 $reg = $_GET["id"];
 
-if(isset($_GET["action"])){
-    if($_GET["action"] == "approve"){
-        $sql = mysqli_query($bd,"update noncgpa set status = 'Approved' where id = ".$_GET["aid"]." ");
-        if($sql){
-            $_SESSION["msg"] = "Approved";
-        }
-    }else if($_GET["action"] == "cancel"){
-        $sql = mysqli_query($bd, "update noncgpa set status = 'Cancel' where id = ".$_GET["aid"]." ");
-        if($sql){
-            $_SESSION["errmsg"] = "cancelled";
-        }
-    }
-}
-
 
 ?>
 <!DOCTYPE html>
@@ -30,7 +16,7 @@ if(isset($_GET["action"])){
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Tutor | Certificates</title>
+    <title>HOD | Credit Transfer</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -49,7 +35,7 @@ if(isset($_GET["action"])){
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Certificates  </h1>
+                        <h1 class="page-head-line">Credit Transfer </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -72,14 +58,13 @@ if(isset($_GET["action"])){
                                             <th>Student Regno</th>
                                             <th>Platform</th>
                                             <th>Title</th>
-                                            <th>Type</th>
                                             <th>Proof</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from noncgpa where name= ".$reg." order by type");
+$sql=mysqli_query($bd,"select * from students a inner join noncgpa b on a.StudentRegno = b.name where b.status = 'Approved' and a.department = '" . $_SESSION['department'] . "' a.batch = '" .$reg. "' ");
 $cnt=1;
 $credit = 0;
 $sem = 0;
@@ -91,7 +76,6 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['name']);?></td>
                                             <td><?php echo htmlentities($row['platform']);?></td>
                                             <td><?php echo htmlentities($row['title']);?></td>
-                                            <td><?php echo htmlentities($row['type']);?></td>
                                             <td><embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px"> </td>
                                             <?php if($row["status"] == ""){ ?>
                                             <td><a href="showcertificates.php?id=<?php echo $reg; ?>&action=approve&aid=<?php echo $row["id"];?>" class="btn btn-success">Approve</a> <a href="showcertificates.php?id=<?php echo $reg; ?>&action=cancel&aid=<?php echo $row["id"];?>" class="btn btn-danger">Cancel</a> </td>
@@ -102,7 +86,9 @@ while($row=mysqli_fetch_array($sql))
 <?php 
 $cnt++;
 }?>
-                                </table>
+       
+
+                         </table>
                             </div>
                         </div>
                     </div>

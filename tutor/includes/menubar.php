@@ -10,10 +10,12 @@ include('includes/config.php'); ?>
                     <?php if($_SESSION['role'] == "Tutor"){ ?>
                         <li><a href="mystudents.php">My Students</a></li>
                         <?php } else if($_SESSION['role'] == "HOD"){ ?>
-                            <li><a href="studentprogresshod.php">Students Progress</a></li>
+                            <li><a href="StudentProgressHod.php">Students Progress</a></li>
+                            <li><a href="CreditTransferHod.php"> Credit Transfer</a></li>
                         <?php }
                             if($_SESSION['role'] == "CI"){ ?>
-                            <li><a href="studentprogressci.php">Class Incharge Students</a></li>
+                            <li><a href="StudentProgressCI.php">Class Incharge Students</a></li>
+                            <li><a href="CreditTransferCI.php">Credit Transfer</a></li>
                             <?php } ?>
                         <li><a href="my-profile.php">My Profile</a></li>
                         <li><a href="change-password.php">Change Password</a></li>
