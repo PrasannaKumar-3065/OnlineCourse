@@ -5,7 +5,11 @@ if(strlen($_SESSION['tlogin']) == "")
     {   
 header('location:index.php');
 }
-$reg = $_GET["id"];
+if(isset($_GET['del']))
+      {
+              mysqli_query($bd, "update students set CI = NULL where StudentRegno = '".$_GET['id']."'");
+                  $_SESSION['delmsg']="Student record deleted !!";
+      } 
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +19,7 @@ $reg = $_GET["id"];
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>HOD |  Batch Students</title>
+    <title>Class Incharge | Students</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -34,7 +38,7 @@ $reg = $_GET["id"];
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line"> <?php $reg ?> Batch Students</h1>
+                        <h1 class="page-head-line">Class Incharge Students </h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -61,7 +65,7 @@ $reg = $_GET["id"];
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from students where batch= ".$reg." ");
+$sql=mysqli_query($bd, "select * from students where CI = '".$_SESSION["tlogin"]."' ");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {
@@ -74,7 +78,8 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['studentName']);?></td>
                                             <td><?php echo htmlentities($row['creationdate']);?></td>
                                             <td>              
-
+<a href="mystudents.php?id=<?php echo $row['StudentRegno']?>&del=delete" onClick="return confirm('Are you sure you want to remove student from your Class Incharge ward?')">
+                                            <button class="btn btn-danger">Remove</button>
 </a>
 <a href="showcourses.php?id=<?php echo $row['StudentRegno']?>">
 <button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>

@@ -16,7 +16,7 @@ $reg = $_GET["id"];
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Tutor | Course</title>
+    <title>Courses Registered</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -58,6 +58,7 @@ $reg = $_GET["id"];
                                             <th>Semester</th>
                                             <th>Course Code</th>
                                             <th>Course Name</th>
+                                            <th>Credit Value</th>
                                              <th>Type</th>
                                         </tr>
                                     </thead>
@@ -76,6 +77,7 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['semester']);?></td>
                                             <td><?php echo htmlentities($row['courseCode']);?></td>
                                             <td><?php echo htmlentities($row['courseName']);?></td>
+                                            <td><?php echo htmlentities($row['credit']);?></td>
                                             <td><?php echo htmlentities($row['type']);?></td>
                                         </tr>              
 <?php 

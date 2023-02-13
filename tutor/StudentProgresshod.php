@@ -70,6 +70,7 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo $cnt;?></td>
                                             <td><?php echo htmlentities($row['batch']);?></td>
                                             <td>              
+                                                
 <a href="showstudents.php?id=<?php echo $row['batch']?>">
 <button type="submit" name="submit" id="submit" class="btn btn-danger">View Students</button>
 </a>
