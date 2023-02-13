@@ -13,6 +13,11 @@ $sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dep
             return 0;
         }
     }
+
+    function staffid($bd,$id){
+        $cc = mysqli_fetch_assoc(mysqli_query($bd, "select * from tutors where username = '".$id."' "));
+        return $cc["tutorname"];
+    }
 ?>
 <head>
     <meta charset="utf-8" />
@@ -56,6 +61,16 @@ $sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dep
                             <?php }else{?><td style="border: 1px solid black;"></td><?php }} ?>
                     </tr>
                 <?php } ?>
+                <tr>
+                        <td>Staffs</td>
+                        <?php for ($var = 0; $var < sizeof($courses); $var++){
+                            $sta = mysqli_fetch_assoc(mysqli_query($bd,"Select * from course where id = ".$courses[$var].";"));
+                            ?>
+                            <script>console.log('<?php echo $courses[$var]; ?>');</script>
+                            <td style="border: 1px solid black; text-align: left;"><?php echo staffid($bd,$sta["staff1"]); ?>&#10;<?php echo staffid($bd,$sta["staff2"]); ?>&#10;<?php echo staffid($bd,$sta["staff3"]);?>&#10;</td><?php } ?> 
+                </tr>
+                        
+                </tr>
             </tbody>
         </table>
        <center><button type="submit" id="downloadexcel" name="export" class="tbn btn-primary" value="Export to Excel">Export to excel</button></center>

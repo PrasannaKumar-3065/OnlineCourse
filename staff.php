@@ -8,11 +8,11 @@ if (strlen($_SESSION['login']) == "")
 
 $count = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
 
-//  $sql = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
-//  $sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." group by studentRegno "));
-//  if($sql != $sql2){
-//    header('location:enroll.php?msg=wait');
-//  }
+ $sql = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
+ $sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where department = '".$_SESSION["department"]."' and batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." group by studentRegno "));
+ if($sql != $sql2){
+   header('location:enroll.php?msg=wait');
+ }
 
 function staff($bd, $staffid)
 {
