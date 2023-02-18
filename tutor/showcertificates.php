@@ -9,12 +9,12 @@ $reg = $_GET["id"];
 
 if(isset($_GET["action"])){
     if($_GET["action"] == "approve"){
-        $sql = mysqli_query($bd,"update noncgpa set status = 'Approved' where id = ".$_GET["aid"]." ");
+        $sql = mysqli_query($bd,"update noncgpa set status = 'Approved_by_Tutor' where id = ".$_GET["aid"]." ");
         if($sql){
             $_SESSION["msg"] = "Approved";
         }
     }else if($_GET["action"] == "cancel"){
-        $sql = mysqli_query($bd, "update noncgpa set status = 'Cancel' where id = ".$_GET["aid"]." ");
+        $sql = mysqli_query($bd, "update noncgpa set status = 'Cancelled_by_Tutor' where id = ".$_GET["aid"]." ");
         if($sql){
             $_SESSION["errmsg"] = "cancelled";
         }
@@ -95,7 +95,7 @@ while($row=mysqli_fetch_array($sql))
                                             <td><embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px"> </td>
                                             <?php if($row["status"] == ""){ ?>
                                             <td><a href="showcertificates.php?id=<?php echo $reg; ?>&action=approve&aid=<?php echo $row["id"];?>" class="btn btn-success">Approve</a> <a href="showcertificates.php?id=<?php echo $reg; ?>&action=cancel&aid=<?php echo $row["id"];?>" class="btn btn-danger">Cancel</a> </td>
-                                            <?php } else{ $color = ""; if($row["status"] == "Approved"){$color = "text-success";}else{$color = "text-danger";} ?>
+                                            <?php } else{ $color = ""; if($row["status"] == "Approved_by_Tutor"){$color = "text-success";}else{$color = "text-danger";} ?>
                                             <td class="<?php echo $color;?>"><?php echo $row["status"]; ?></td>
                                             <?php }?>
                                         </tr>              

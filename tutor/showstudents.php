@@ -61,7 +61,7 @@ $reg = $_GET["id"];
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from students where batch= ".$reg." ");
+$sql=mysqli_query($bd, "select * from students where batch= '".$reg."' ");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {

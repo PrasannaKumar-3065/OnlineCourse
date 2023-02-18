@@ -9,8 +9,14 @@ else{
 
 if(isset($_POST['submit']))
 {
-  $semester=$_POST['semester'];
-$ret=mysqli_query($bd, "insert into semester(semester) values('$semester')");
+  
+    $semester=$_POST['semester'];
+    $department=$_POST['department'];
+    $regulation=$_POST['regulation'];
+    $elective=$_POST['elective'];
+
+
+$ret=mysqli_query($bd, "insert into semester(semester,department,regulation,elective) values('$semester','$department','$regulation','$elective')");
 if($ret)
 {
 $_SESSION['msg']="Semester Created Successfully !!";
@@ -70,7 +76,22 @@ if(isset($_GET['del']))
                        <form name="semester" method="post">
    <div class="form-group">
     <label for="semester">Add Semester  </label>
-    <input type="text" class="form-control" id="semester" name="semester" placeholder="semester" required />
+    <input type="text" class="form-control" id="semester" name="semester" placeholder=" Enter Semester " required />
+  </div>
+
+  <div class="form-group">
+    <label for="dept"> Department Name </label>
+    <input type="text" class="form-control" id="department" name="department" placeholder=" Enter Department " required />
+  </div>
+
+  <div class="form-group">
+    <label for="reg"> Regulation</label>
+    <input type="text" class="form-control" id="regulation" name="regulation" placeholder=" Enter regulation " required />
+  </div>
+
+  <div class="form-group">
+    <label for="ele">No of Electives</label>
+    <input type="text" class="form-control" id="elective" name="elective" placeholder=" Electives count " required />
   </div>
  <button type="submit" name="submit" class="btn btn-default">Submit</button>
 </form>
@@ -94,6 +115,9 @@ if(isset($_GET['del']))
                                         <tr>
                                             <th>#</th>
                                             <th>Semester</th>
+                                            <th>Department</th>
+                                            <th>Regulation</th>
+                                            <th>Electives</th>
                                             <th>Creation Date</th>
                                             <th>Action</th>
                                         </tr>
@@ -110,6 +134,9 @@ while($row=mysqli_fetch_array($sql))
                                         <tr>
                                             <td><?php echo $cnt;?></td>
                                             <td><?php echo htmlentities($row['semester']);?></td>
+                                            <td><?php echo htmlentities($row['department']);?></td>
+                                            <td><?php echo htmlentities($row['regulation']);?></td>
+                                            <td><?php echo htmlentities($row['elective']);?></td>
                                             <td><?php echo htmlentities($row['creationDate']);?></td>
                                             <td>
   <a href="semester.php?id=<?php echo $row['id']?>&del=delete" onClick="return confirm('Are you sure you want to delete?')">

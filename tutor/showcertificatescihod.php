@@ -63,7 +63,7 @@ $reg = $_GET["id"];
                                     </thead>
                                     
 <?php
-$sql=mysqli_query($bd, "select * from noncgpa where name= ".$reg." order by type");
+$sql=mysqli_query($bd, "select * from noncgpa where name= ".$reg." and status = 'Approved_by_Tutor' || status = 'Approved_by_CI' || status = 'Approved_by_HOD'  order by type ");
 $cnt=1;
 $credit = 0;
 $sem = 0;
@@ -77,6 +77,9 @@ while($row=mysqli_fetch_array($sql))
                                             <td><?php echo htmlentities($row['title']);?></td>
                                             <td><?php echo htmlentities($row['type']);?></td>
                                             <td><embed src="data:application/pdf;base64,<?php echo $row['proof']; ?>" type="application/pdf" height="300px"> </td>
+                                            <?php 
+                                            $color = ""; if($row["status"] == "Approved_by_CI" || $row["status"] == "Approved_by_Tutor" || $row["status"] == "Approved_by_HOD" ){$color = "text-success";}else{$color = "text-danger";} ?>
+                                            <td class="<?php echo $color;?>"><?php echo $row["status"]; ?></td>
                                         </tr>              
 <?php 
 $cnt++;

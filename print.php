@@ -107,10 +107,13 @@ else{
     <div class="invoice-box">
 <?php
 $cid=intval($_GET['id']);
-$sql=mysqli_query($bd, "select course.courseName as courname,course.courseCode as ccode,course.credit as credit,department.department as dept,courseenrolls.enrollDate as edate,semester.semester as sem ,students.studentName as studentname,students.studentPhoto as photo,students.creationdate as studentregdate from courseenrolls join course on course.id=courseenrolls.course join department on department.id=courseenrolls.department join students on students.StudentRegno=courseenrolls.StudentRegno join semester on semester.id=courseenrolls.semester where courseenrolls.studentRegno='".$_SESSION['login']."' and courseenrolls.course='$cid'");
+$sql=mysqli_query($bd, "select course.courseName as courname,course.courseCode as ccode,course.credit as credit,course.department as cdept,courseenrolls.enrollDate as edate,course.semester as csem  from courseenrolls join course on course.id=courseenrolls.course where courseenrolls.course='$cid' ");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
-{?>
+{
+    $jen=mysqli_query($bd," select * from students where studentRegno='".$_SESSION['login']."' " );
+$qen=mysqli_fetch_array($jen);
+?>
 
 
         <table cellpadding="0" cellspacing="0">
@@ -127,8 +130,8 @@ while($row=mysqli_fetch_array($sql))
                             
                             <td>
                                <b> Reg No: </b><?php echo htmlentities($_SESSION['login']);?><br>
-                               <b> Student Name: </b>  <?php echo htmlentities($row['studentname']);?><br>
-                               <b> Student Reg Date:</b> <?php echo htmlentities($row['studentregdate']);?><br>
+                               <b> Student Name: </b>  <?php echo htmlentities($qen['studentname']);?><br>
+                               
                                 <b> Student Course Enroll Date:</b> <?php echo htmlentities($row['edate']);?><br>
                             </td>
                         </tr>

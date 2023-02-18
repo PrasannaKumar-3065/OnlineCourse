@@ -4,9 +4,9 @@ include('includes/config.php');
 if ( isset($_GET['msg'])){
   $_SESSION["msg"] = "wait till all the students completes registration";
 }
-$rst = mysqli_fetch_assoc(mysqli_query($bd, "select elective from semester where id=" . $_SESSION['semester'] . " "));
+$rst = mysqli_fetch_assoc(mysqli_query($bd, "select elective from semester where id = " . $_SESSION['semester'] . " and department = '" . $_SESSION['department'] . "' and regulation = '" . $_SESSION['regulation'] . "' "));
 $cr = $rst["elective"];
-$noncgpa = mysqli_query($bd, "select * from noncgpa where name = " . $_SESSION["login"] . " and type = 'Credit Transfer' and status = 'Approved' ");
+$noncgpa = mysqli_query($bd, "select * from noncgpa where name = " . $_SESSION["login"] . " and type = 'Credit Transfer' and status = 'Approved_by_HOD' ");
 $creditcount = mysqli_num_rows($noncgpa);
 $flag = 0;
 if ($creditcount > 0) {
@@ -64,7 +64,7 @@ if ($_SESSION['id'] != null) {
           $transfer = $_POST["credit"];
           foreach($transfer as $t){
             $sql =mysqli_fetch_assoc(mysqli_query($bd, "select * from course where type= 'Elective" . $t . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' limit 1"));
-            $sql1 = mysqli_query($bd, "update noncgpa set course = ".$sql["id"].", semester = ".$_SESSION["semester"].", status = 'Completed' where name=".$_SESSION["login"]." and status = 'Approved' limit 1; ");
+            $sql1 = mysqli_query($bd, "update noncgpa set course = ".$sql["id"].", semester = ".$_SESSION["semester"].", status = 'Completed' where name=".$_SESSION["login"]." and status = 'Approved_by_HOD' limit 1; ");
             if($sql1){
               $_SESSION["msg"] .= $sql["id"]." Credit transfer sucessful!! ";
             }else{
@@ -245,12 +245,11 @@ function courseAvailability(value) {
 
 
                                 <div class="form-group">
-                                    <label for="Pincode">Student Photo </label>
-                                    <?php if ($row['studentPhoto'] == "") { ?>
-                                    <img src="studentphoto/noimage.png" width="200" height="200"><?php } else { ?>
-                                    <img src="data:image/jpeg;base64,<?php echo $_SESSION['photo']; ?>" width="200"
-                                        height="200">
-                                    <?php } ?>
+                                <label for="Pincode">Student Photo  </label>
+                                <?php if($row['studentPhoto']==""){ ?>
+                                <img src="studentphoto/noimage.png" width="200" height="200"><?php } else {?>
+                                <img src="data:image/jpeg;base64,<?php echo $row['studentPhoto']; ?>" width="200" height="200">
+                                <?php } ?>
                                 </div>
                                 <?php } ?>
 
@@ -288,7 +287,7 @@ function courseAvailability(value) {
                                         name="course[]" id="course[]" onchange="courseAvailability(this.value)"
                                         required="required">
                                         <?php
-                      $sql = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and semester=" . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "'");
+                      $sql = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "'");
                       while ($row = mysqli_fetch_array($sql)) {
                         array_push($c, $row["id"]);
                       ?>
@@ -325,7 +324,7 @@ function courseAvailability(value) {
                                             name="elective[]" id="elective<?php echo $i; ?>"
                                             onchange="courseAvailability(this.value)" required="required">
                                             <?php
-                            $sql = mysqli_query($bd, "select * from course where type= 'Elective" . $i . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' ");
+                            $sql = mysqli_query($bd, "select * from course where type= 'Elective" . $i . "' and department='" . $_SESSION['department'] . "' and semester='" . $_SESSION['semester'] . "' and regulation='" . $_SESSION['regulation'] . "' and batch = '" . $_SESSION['batch'] . "'  ");
                             while ($row = mysqli_fetch_array($sql)) {
                             ?>
                                             <option id="<?php echo $i; ?>"

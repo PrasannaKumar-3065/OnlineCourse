@@ -9,7 +9,7 @@ if(isset($_GET['del']))
       {
               mysqli_query($bd, "update students set tutorname = NULL where StudentRegno = '".$_GET['id']."'");
                   $_SESSION['delmsg']="Student record deleted !!";
-      } 
+      }
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +85,7 @@ while($row=mysqli_fetch_array($sql))
 <button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>
 </a>
 <a href="showcertificates.php?id=<?php echo $row['StudentRegno']?>">
-<button type="submit" name="submit" id="submit" class="btn btn-default">Certificates</button>
+    <button type="submit" name="submit" id="submit" class="btn btn-default">Certificates</button>
 </a>
                                    </td>
                                         </tr>

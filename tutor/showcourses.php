@@ -5,7 +5,7 @@ if(strlen($_SESSION['tlogin']) == "")
     {   
 header('location:index.php');
 }
-$reg = $_GET["id"];
+    $reg = $_GET["id"];
 ?>
 
 
