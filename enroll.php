@@ -72,20 +72,22 @@ if ($_SESSION['id'] != null) {
             }
           }
         }
-        foreach ($e as $el) {
-          $ref = mysqli_query($bd, "SELECT * FROM courseenrolls where studentName='" . $_POST['studentname'] . "' && semester=" . $_POST['sem'] . " && course='" . $el . "' && department='" . $_POST['department'] . "' && studentRegno='" . $_POST['studentregno'] . "' && batch='" . $_POST['batch'] . "' ");
-          $col = mysqli_num_rows($ref);
-          if ($col == 0) {
-            $cc1 = mysqli_fetch_assoc(mysqli_query($bd, "SELECT credit from course where id='" . $el . "'"));
-            $count += $cc1['credit'];
-            //$ret = mysqli_query($bd,"UPDATE totalcredits SET creditsum=creditsum+".$cc1['credit']." where studentname='" . $_POST['studentname'] . "' &&  semester='" . $_POST['sem'] . "' && batch='" . $_POST['batch'] . "' && studentRegno='" . $_POST['studentregno'] . "' && department='" . $_POST['department'] . "' ");
-            $o = mysqli_query($bd, "insert into courseenrolls(studentRegno,studentname,department,course,semester,batch) values('$studentregno','$studentname','$dept','$el','$sem','$batch')");
-            if ($o) {
-              $_SESSION['msg'] .= $el . "Enroll Successfully !! ";
-            } else {
-              $_SESSION['msg'] .= $el . "Error : Not Enroll";
+          if(sizeof($e) > 0){
+            foreach ($e as $el) {
+              $ref = mysqli_query($bd, "SELECT * FROM courseenrolls where studentName='" . $_POST['studentname'] . "' && semester=" . $_POST['sem'] . " && course='" . $el . "' && department='" . $_POST['department'] . "' && studentRegno='" . $_POST['studentregno'] . "' && batch='" . $_POST['batch'] . "' ");
+              $col = mysqli_num_rows($ref);
+              if ($col == 0) {
+                $cc1 = mysqli_fetch_assoc(mysqli_query($bd, "SELECT credit from course where id='" . $el . "'"));
+                $count += $cc1['credit'];
+                //$ret = mysqli_query($bd,"UPDATE totalcredits SET creditsum=creditsum+".$cc1['credit']." where studentname='" . $_POST['studentname'] . "' &&  semester='" . $_POST['sem'] . "' && batch='" . $_POST['batch'] . "' && studentRegno='" . $_POST['studentregno'] . "' && department='" . $_POST['department'] . "' ");
+                $o = mysqli_query($bd, "insert into courseenrolls(studentRegno,studentname,department,course,semester,batch) values('$studentregno','$studentname','$dept','$el','$sem','$batch')");
+                if ($o) {
+                  $_SESSION['msg'] .= $el . "Enroll Successfully !! ";
+                } else {
+                  $_SESSION['msg'] .= $el . "Error : Not Enroll";
+                }
+              }
             }
-          }
         }
       }
       $sql = mysqli_query($bd, "SELECT creditsum from totalcredits where studentname='" . $_POST['studentname'] . "' && studentRegno='" . $_POST['studentregno'] . "' &&  semester='" . $_POST['sem'] . "' && department='" . $_POST['department'] . "' && batch='" . $_POST['batch'] . "'");
