@@ -18,6 +18,13 @@ if(isset($_GET["action"])){
             $_SESSION["errmsg"] = "cancelled";
         }
     }
+    else if($_GET["action"] == "approveall"){
+    $sql = mysqli_query($bd, "update noncgpa set status = 'Approved_by_CI' where type = 'Credit Transfer' and status = 'Approved_by_Tutor' ");
+    if($sql){
+        echo '<script>alert("All Credit Transfers are approved");</script>';
+    }
+}
+    
 }
 
 ?>
@@ -58,7 +65,9 @@ if(isset($_GET["action"])){
                 <font color="red" align="center"><?php echo htmlentities($_SESSION['errmsg']);?><?php echo htmlentities($_SESSION['errmsg']="");?></font>
                 <div class="col-md-12">
 
-                <a href="approvedctci.php">Already Approved Credit Transfer</a>
+                <a href="approvedctci.php" class="btn btn-info">Already Approved Credit Transfer</a>
+
+                <a href="CreditTransferCI.php?&action=approveall" class="btn btn-primary">Approve All Credit Transfers</a>
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -105,7 +114,7 @@ $cnt++;
 }
 }
 else{
-    echo '<script>alert("No Credit Transfers are waiting for approval");</script>';
+    echo '<script>alert("No More Credit Transfers are waiting for approval");</script>';
 }
 ?>
 

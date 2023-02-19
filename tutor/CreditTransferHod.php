@@ -6,6 +6,15 @@ if(strlen($_SESSION['tlogin']) == "")
     {   
 header('location:index.php');
 }
+
+if(isset($_GET["action"])){
+if($_GET["action"] == "approveall"){
+    $sql = mysqli_query($bd, "update noncgpa set status = 'Approved_by_HOD' where type = 'Credit Transfer' and status = 'Approved_by_CI' ");
+    if($sql){
+        echo '<script>alert("All Credit Transfers are approved");</script>';
+    }
+}
+}
 ?>
 
 <!DOCTYPE html>

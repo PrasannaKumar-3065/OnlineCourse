@@ -6,7 +6,7 @@ if(strlen($_SESSION['tlogin']) == "")
 header('location:index.php');
 }
 $reg = $_GET["id"];
-
+ 
 if(isset($_GET["action"])){
     if($_GET["action"] == "approve"){
         $sql = mysqli_query($bd,"update noncgpa set status = 'Approved_by_HOD' where id = ".$_GET["aid"]." ");
@@ -17,6 +17,12 @@ if(isset($_GET["action"])){
         $sql = mysqli_query($bd, "update noncgpa set status = 'Cancelled_by_HOD' where id = ".$_GET["aid"]." ");
         if($sql){
             $_SESSION["errmsg"] = "cancelled";
+        }
+    }
+    else if($_GET["action"] == "approveall"){
+        $sql = mysqli_query($bd, "update noncgpa set status = 'Approved_by_HOD' where type = 'Credit Transfer' and status = 'Approved_by_CI' ");
+        if($sql){
+            echo '<script>alert("All Credit Transfers are approved");</script>';
         }
     }
 }
@@ -58,7 +64,9 @@ if(isset($_GET["action"])){
                 
                 
                 <div class="col-md-12">
-                <a href="approvedcthod.php?id=<?php echo $reg; ?>">Already Approved Credit Transfer</a>
+                <a href="approvedcthod.php?id=<?php echo $reg; ?>" class="btn btn-info">Already Approved Credit Transfer</a>
+
+                <a href="CreditTransferHod.php?&action=approveall" class="btn btn-primary">Approve All Credit Transfers</a>
                 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -105,7 +113,7 @@ $cnt++;
 }
 }
 else{
-    echo '<script>alert("No Credit Transfers are waiting for approval");</script>';
+    echo '<script>alert("No More Credit Transfers are waiting for approval");</script>';
 }?>
        
 
