@@ -7,7 +7,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
   if (isset($_POST['submit'])) {
 
-    $ref = mysqli_query($bd, "SELECT count(*) as allcount FROM course where courseName='" . $_POST['coursename'] . "' && courseCode='" . $_POST['coursecode'] . "' && semester='" . $_POST['semester'] . "' && department='" . $_POST['department'] . "' && regulation='" . $_POST['regulation'] . "' && credit='" . $_POST['credit'] . "' && type='" . $_POST['type'] . "' && batch ='" . $_POST['batch'] . "' ");
+    $ref = mysqli_query($bd, "SELECT count(*) as allcount FROM course where courseCode='" . $_POST['coursecode'] . "' && department='" . $_POST['department'] . "' && regulation='" . $_POST['regulation'] . "' && batch ='" . $_POST['batch'] . "' ");
     $col = mysqli_fetch_array($ref);
     $allcount = $col['allcount'];
     if ($allcount == 0) {
@@ -23,7 +23,11 @@ if (strlen($_SESSION['alogin']) == 0) {
       $staff1 = $_POST['staff1'];
       $staff2 = $_POST['staff2'];
       $staff3 = $_POST['staff3'];
-      $ret = mysqli_query($bd, "insert into course(courseCode,courseName,type,department,batch,semester,staff1,staff2,staff3,credit,noofSeats,regulation) values('$coursecode','$coursename','$type','$department','$batch','$semester','$staff1','$staff2','$staff3','$credit','$seatlimit','$regulation')");
+      $staff4 = $_POST['staff4'];
+      $staff5 = $_POST['staff5'];
+      $staff6 = $_POST['staff6'];
+
+      $ret = mysqli_query($bd, "insert into course(courseCode,courseName,type,department,batch,semester,staff1,staff2,staff3,staff4,staff5,staff6,credit,noofSeats,regulation) values('$coursecode','$coursename','$type','$department','$batch','$semester','$staff1','$staff2','$staff3','$staff4','$staff5','$staff6','$credit','$seatlimit','$regulation')");
       if ($ret) {
         $_SESSION['msg'] = "Course Created Successfully !!";
       } else {
@@ -169,6 +173,27 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <span id="user-availability-status1" style="font-size:12px;">
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="staff4">Staff 4 </label>
+                                    <input type="text" class="form-control" id="staff4" name="staff4" onBlur="staff_4()"
+                                        placeholder="staff 4" />
+                                    <span id="user-availability-status1" style="font-size:12px;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staff5">Staff 5 </label>
+                                    <input type="text" class="form-control" id="staff5" name="staff5" onBlur="staff_5()"
+                                        placeholder="staff 5" />
+                                    <span id="user-availability-status1" style="font-size:12px;">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="staff6">Staff 6 </label>
+                                    <input type="text" class="form-control" id="staff6" name="staff6" onBlur="staff_6()"
+                                        placeholder="staff 6" />
+                                    <span id="user-availability-status1" style="font-size:12px;">
+                                </div>
+
                                 <button type="submit" name="submit" class="btn btn-default">Submit</button>
                             </form>
                         </div>
@@ -229,6 +254,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         <th>Staff1</th>
                                         <th>Staff2</th>
                                         <th>Staff3</th>
+                                        <th>Staff4</th>
+                                        <th>Staff5</th>
+                                        <th>Staff6</th>
                                         <th>Creation Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -255,6 +283,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         <td><?php echo htmlentities($row['staff1']); ?></td>
                                         <td><?php echo htmlentities($row['staff2']); ?></td>
                                         <td><?php echo htmlentities($row['staff3']); ?></td>
+                                        <td><?php echo htmlentities($row['staff4']); ?></td>
+                                        <td><?php echo htmlentities($row['staff5']); ?></td>
+                                        <td><?php echo htmlentities($row['staff6']); ?></td>
                                         <td><?php echo htmlentities($row['creationDate']); ?></td>
                                         <td>
                                             <a href="edit-course.php?id=<?php echo $row['id'] ?>">
@@ -311,7 +342,10 @@ if (strlen($_SESSION['alogin']) == 0) {
               $staff1 = $row[9];
               $staff2 = $row[10];
               $staff3 = $row[11];
-              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,batch,semester,credit,noofSeats,regulation,staff1,staff2,staff3) VALUES('', '$courseCode','$courseName','$type','$department','$batch', '$semester','$credit','$noofSeats','$regulation','$staff1','$staff2','$staff3')");
+              $staff4 = $row[12];
+              $staff5 = $row[13];
+              $staff6 = $row[14];
+              mysqli_query($bd, "INSERT INTO course(id,courseCode,courseName,type,department,batch,semester,credit,noofSeats,regulation,staff1,staff2,staff3,staff4,staff5,staff6) VALUES('', '$courseCode','$courseName','$type','$department','$batch', '$semester','$credit','$noofSeats','$regulation','$staff1','$staff2','$staff3','$staff4','$staff5','$staff6')");
             }
 
             echo
@@ -383,6 +417,49 @@ function staff_3() {
         error: function() {}
     });
 }
+
+function staff_4() {
+    $("#loaderIcon").show();
+    jQuery.ajax({
+        url: "check_staff.php",
+        data: 'tut=' + $("#staff4").val(),
+        type: "POST",
+        success: function(data) {
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+        },
+        error: function() {}
+    });
+}
+
+function staff_5() {
+    $("#loaderIcon").show();
+    jQuery.ajax({
+        url: "check_staff.php",
+        data: 'tut=' + $("#staff5").val(),
+        type: "POST",
+        success: function(data) {
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+        },
+        error: function() {}
+    });
+}
+
+function staff_6() {
+    $("#loaderIcon").show();
+    jQuery.ajax({
+        url: "check_staff.php",
+        data: 'tut=' + $("#staff6").val(),
+        type: "POST",
+        success: function(data) {
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+        },
+        error: function() {}
+    });
+}
+
 </script>
 
 </html>

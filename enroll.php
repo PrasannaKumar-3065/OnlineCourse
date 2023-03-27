@@ -38,7 +38,7 @@ if ($_SESSION['id'] != null) {
     if ($num == null || $num["creditsum"] < 30) {
       //  for ($var = 0; $var < sizeof($c); $var++){ 
       //    $a = $c[$var];
-      $sql10 = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and semester=" . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "'");
+      $sql10 = mysqli_query($bd, "select * from course where (department='" . $_SESSION['department'] . "' and semester=" . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and batch = '".$_SESSION['batch']."' and type='Core') or (department='" . $_SESSION['department'] . "' and semester=" . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and batch = '".$_SESSION['batch']."' and type='CoreLab') or (department='" . $_SESSION['department'] . "' and semester=" . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and batch = '".$_SESSION['batch']."' and type='OneCredit') ");
       while ($rr = mysqli_fetch_assoc($sql10)) {
         $a = $rr["id"];
         //foreach($c as $a){
@@ -57,6 +57,9 @@ if ($_SESSION['id'] != null) {
           } else {
             $_SESSION['msg'] = "Error : Not Enroll";
           }
+        }
+        else{
+          $_SESSION['msg'] .= $a. "Already registered !!";
         }
       }
       if ($cr > 0) {
@@ -147,11 +150,11 @@ if ($_SESSION['id'] != null) {
   }
 }
 if (isset($_POST['sendreq'])) {
-  $sq = mysqli_num_rows(mysqli_query($bd, "Select * from notification where from_user = '" . $_SESSION['sname'] . "' and status = 'Pending' "));
+  $sq = mysqli_num_rows(mysqli_query($bd, "Select * from notification where from_user = '" . $_SESSION['sname'] . "' and status = 'Pending' and semester = '".$_SESSION['semester']."' "));
   if ($sq != 0) {
     $_SESSION['errmsg'] = "only one request can be sent";
   } else {
-    $sql = mysqli_query($bd, "Insert into notification(rollno,from_user,to_user,message,status) values(" . $_SESSION["login"] . ",'" . $_SESSION["sname"] . "','admin','request for re-registering course by " . $_SESSION["sname"] . "', 'Pending') ");
+    $sql = mysqli_query($bd, "Insert into notification(rollno,semester,from_user,to_user,message,status) values(" . $_SESSION["login"] . "," . $_SESSION["semester"] . ",'" . $_SESSION["sname"] . "','admin','request for re-registering course by " . $_SESSION["sname"] . "', 'Pending') ");
     if ($sql != 0) {
       $_SESSION["msg"] = "request sent sucessfully";
     }
@@ -159,7 +162,7 @@ if (isset($_POST['sendreq'])) {
 }
 ?>
 <?php
-$ele = mysqli_num_rows(mysqli_query($bd, "Select * from courseenrolls a inner join course b on a.course=b.id  where b.type='Core' and a.studentRegno = " . $_SESSION['login'] . " "));
+$ele = mysqli_num_rows(mysqli_query($bd, "Select * from courseenrolls a inner join course b on a.course=b.id  where  a.semester=".$_SESSION['semester']." and a.studentRegno = " . $_SESSION['login'] . " and b.type='Core' "));
 if ($ele == 0) { ?>
 <!DOCTYPE html>
 
@@ -289,7 +292,7 @@ function courseAvailability(value) {
                                         name="course[]" id="course[]" onchange="courseAvailability(this.value)"
                                         required="required">
                                         <?php
-                      $sql = mysqli_query($bd, "select * from course where type='Core' and department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "'");
+                      $sql = mysqli_query($bd, "select * from course where (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='Core') or (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='CoreLab') or (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='OneCredit') ");
                       while ($row = mysqli_fetch_array($sql)) {
                         array_push($c, $row["id"]);
                       ?>

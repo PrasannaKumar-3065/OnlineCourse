@@ -1,28 +1,26 @@
 <?php
-
-function check($bd, $cid, $sid){
+function check($bd, $cid, $sid, $sid1){
 	$_SESSION["iterator"]=0;
 	$count = 0;
 	$off = explode(" ",$sid);
-	echo('<script>console.log("'.$off[0].$off[1].'");</script>');
 	$query = mysqli_query($bd, "select * from courseenrolls where course = " . $off[1] . " and department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " ");
 	$sql1 = mysqli_num_rows($query);
 	if($sql1>0){ 
 		echo ("<script>console.log('sql1 result: ".$sql1."');</script>");
 	}
 	$sql = mysqli_fetch_assoc(mysqli_query($bd, "select * from course where id = " . $off[1] . " "));
-	if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] != "") {
+	if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] != "" && $sql["staff4"] != "" && $sql["staff5"] != "" && $sql["staff6"] != "") {
 		$count = (int)($sql1 / 3);
 		$count += 5;
-	} else if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] == "") {
+	} else if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] != "" && $sql["staff4"] != "" && $sql["staff5"] == "" && $sql["staff6"] == "" ) {
 		$count = (int)$sql1 / 2;
 		$count += 5;
-	} else if ($sql["staff1"] != "" && $sql["staff2"] == "" && $sql["staff3"] == "") {
+	} else if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] == "" && $sql["staff4"] == "" && $sql["staff5"] == "" && $sql["staff6"] == "" ) {
 		$count = (int)$sql1 / 1;
 		$count += 5;
 	}
 	echo('<script>console.log("count of students:'.$count.'")</script>');
-	$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = " . $off[1] . " and staff = '" . $off[0] . "' and department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " "));
+	$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = " . $off[1] . " and staff = '" . $off[0] . "' and staff1 = '".$off[2]."' and department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " "));
 	if($sql2>0){
 		echo ("<script>console.log('sql2 success');</script>");
 	}
@@ -41,14 +39,15 @@ function check($bd, $cid, $sid){
 
 session_start();
 require_once("includes/config.php");
-echo ('<script>console.log("from staff_availablity");</script>');
+echo ('<script>console.log("from labstaff_availablity");</script>');
 if (strlen($_SESSION['login']) == null) {
 	header('location:index.php');
 } else {
-	if (!empty($_POST["course"]) && !empty($_POST["sid"])) {
+	if (!empty($_POST["course"]) && !empty($_POST["sid"]) && !empty($_POST["sid1"])) {
 		$cid = $_POST["course"];
 		$sid = $_POST["sid"];
-		check($bd, $cid, $sid);
+        $sid1 = $_POST["sid1"];
+		check($bd, $cid, $sid, $sid1);
 		// if($count1>0)
 		// {
 		// 	echo '<script>alert("Course already registered");</script>';

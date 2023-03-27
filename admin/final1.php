@@ -1,6 +1,6 @@
 <?php
 include("includes/config.php");
-$sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dept"]."' and semester = ".$_POST["semester"]." ");
+$sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dept"]."' and semester = ".$_POST["semester"]." and batch = '".$_POST["batch"]."' ");
     $sql1 = mysqli_query($bd, "select * from students where department = '".$_POST["dept"]."' and batch = '".$_POST["batch"]."' ");
     $courses = array();
     function result($name,$value,$bd)
@@ -67,7 +67,7 @@ $sql = mysqli_query($bd, "Select * from course where department = '".$_POST["dep
                             $sta = mysqli_fetch_assoc(mysqli_query($bd,"Select * from course where id = ".$courses[$var].";"));
                             ?>
                             <script>console.log('<?php echo $courses[$var]; ?>');</script>
-                            <td style="border: 1px solid black; text-align: left;"><?php echo staffid($bd,$sta["staff1"]); ?>&#10;<?php echo staffid($bd,$sta["staff2"]); ?>&#10;<?php echo staffid($bd,$sta["staff3"]);?>&#10;</td><?php } ?> 
+                            <td style="border: 1px solid black; text-align: left;"><?php echo staffid($bd,$sta["staff1"]); ?>&#10;<?php echo staffid($bd,$sta["staff2"]); ?>&#10;<?php echo staffid($bd,$sta["staff3"]);?>&#10; <?php echo staffid($bd,$sta["staff4"]); ?>&#10; <?php echo staffid($bd,$sta["staff5"]); ?>&#10; <?php echo staffid($bd,$sta["staff6"]); ?>&#10; </td><?php } ?> 
                 </tr>
                         
                 </tr>

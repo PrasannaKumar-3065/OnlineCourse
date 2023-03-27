@@ -13,13 +13,15 @@ $currentTime = date( 'd-m-Y h:i:s A', time () );
 if(isset($_POST['submit']))
 {
     $id = $_GET['id'];
-    $sql = mysqli_query($bd,"Select from_user from notification where id = ".$id." ");
-    if($row = mysqli_fetch_assoc($sql)){
-        $sql2 = mysqli_query($bd,"Select * from students where studentname = '".$row["from_user"]."' ");
-        if($row1 = mysqli_fetch_assoc($sql2)){
-            $sql1 = mysqli_query($bd,"Delete from courseenrolls where studentname = '".$row1["studentName"]."' and semester = ".$row1["semester"]." "); 
-            $sql1 = mysqli_query($bd,"Delete from totalcredits where studentname = '".$row1["studentName"]."' and semester = ".$row1["semester"]." ");
-            $sql1 = mysqli_query($bd,"update noncgpa set status = 'Approved', course = 0, semester = 0 where semester = ".$row1["semester"]." ");
+    $sql = mysqli_query($bd,"Select * from notification where id = ".$id." ");
+    $row = mysqli_fetch_assoc($sql);
+    if(mysqli_num_rows($sql)>0){
+        $sql2 = mysqli_query($bd,"Select * from students where StudentRegno = ".$row["rollno"]." ");
+        $row1 = mysqli_fetch_assoc($sql2);
+        if(mysqli_num_rows($sql2)>0){
+            $sql1 = mysqli_query($bd,"Delete from courseenrolls where studentRegno = '".$row1["StudentRegno"]."' and semester = ".$row1["semester"]." and batch ='".$row1["batch"]."' "); 
+            $sql1 = mysqli_query($bd,"Delete from totalcredits where studentRegno = '".$row1["StudentRegno"]."' and semester = ".$row1["semester"]."  and batch ='".$row1["batch"]."' ");
+            $sql1 = mysqli_query($bd,"update noncgpa set status = 'Approved_by_HOD', course = 0, semester = 0 where semester = ".$row1["semester"]." and name = ".$row1["StudentRegno"]." and status='Completed' ");
             $sql1 = mysqli_query($bd,"update notification set status = 'Approved' where id = ".$id." ");
         }        
     }
@@ -40,7 +42,7 @@ if(isset($_POST['cancel'])){
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Admin | Change Password</title>
+    <title>Admin | Requests for re registering</title>
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -58,7 +60,7 @@ if(isset($_POST['cancel'])){
         <div class="container">
               <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Admin Change Password </h1>
+                        <h1 class="page-head-line">Requests for re register</h1>
                     </div>
                 </div>
                 <div class="row" >
@@ -79,7 +81,9 @@ if(isset($_POST['cancel'])){
                         <form method="post" action="notification.php?id=<?php echo $res['id'];?>">
                         <div class="form-group">
                             <h4><?php echo $res["from_user"]?>: </h4>
-                            <h6><?php echo " ".$res["message"];?></h6>
+                            <h6><?php echo " ".$res["message"];?></h6> <h5><?php echo " for semester - 
+                            
+                            ".$res["semester"];?></h5>
                         </div>
                         <button type="submit" name="submit" class="btn btn-default">Approve</button>
                         <button type="submit" name="cancel" class="btn btn-default">Reject</button>

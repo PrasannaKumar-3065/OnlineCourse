@@ -17,22 +17,22 @@ if (strlen($_SESSION['alogin']) == 0) {
     if (isset($_POST["submit"])) {
         $roll1 = $_POST["num1"];
         $roll2 = $_POST["num2"];
-        if($_SESSION["cit"] == "Tutor"){
-        $sql = mysqli_query($bd, "update students set tutorname='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
-        if ($sql) {
-            $_SESSION["delmsg"] = "Tutor assigned for students from " . $roll1 . " to " . $roll2;
-        } else {
-            $_SESSION["delmsg"] = "Tutor assigned failed";
-        }
+            $sql = mysqli_query($bd, "update students set tutorname='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
+            if ($sql) {
+                $_SESSION["delmsg"] = "Tutor assigned for students from " . $roll1 . " to " . $roll2;
+            } else {
+                $_SESSION["delmsg"] = "Tutor assigned failed";
+            }
     }
-    else if($_SESSION["cit"] == "CI"){
-        $sql = mysqli_query($bd, "update students set CI='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
-        if ($sql) {
-            $_SESSION["delmsg"] = "Class Incharge assigned for students from " . $roll1 . " to " . $roll2;
-        } else {
-            $_SESSION["delmsg"] = "Class Incharge assigned failed";
-        }
-    }
+    if (isset($_POST["CI"])) {
+        $roll1 = $_POST["c1"];
+        $roll2 = $_POST["c2"];
+            $sql = mysqli_query($bd, "update students set CI='".$_SESSION["temp"]."' where StudentRegno between ".$roll1." and ".$roll2.";");
+            if ($sql) {
+                $_SESSION["cimsg"] = "Class Incharge assigned for students from " . $roll1 . " to " . $roll2;
+            } else {
+                $_SESSION["cimsg"] = "Class Incharge assigned failed";
+            }
     }
 
 
@@ -59,12 +59,11 @@ if (strlen($_SESSION['alogin']) == 0) {
             include('includes/menubar.php');
         }
         ?>
-
         <div class="content-wrapper">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Course Enroll </h1>
+                        <h1 class="page-head-line">Tutor Assign </h1>
                     </div>
                 </div>
                 <div class="row">
@@ -72,7 +71,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Course Enroll
+                                Tutor Assign
                             </div>
                             <font color="green" align="center"><?php echo htmlentities($_SESSION['delmsg']); ?><?php echo htmlentities($_SESSION['delmsg'] = ""); ?></font>
                             <div class="panel-body">
@@ -108,7 +107,56 @@ if (strlen($_SESSION['alogin']) == 0) {
 
             </div>
         </div>
+        <?php if($_SESSION['cit']=="CI"){?>
+        <div class="content-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-head-line">Assign Class Incharge </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Assign Class Incharge
+                            </div>
+                            <font color="green" align="center"><?php echo htmlentities($_SESSION['cimsg']); ?><?php echo htmlentities($_SESSION['cimsg'] = ""); ?></font>
+                            <div class="panel-body">
+                                <form action="assign.php" method="POST">
+                                    <div class="form-group">
+                                        <label for="studentregno">Class Incharge ID</label>
+                                        <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo $_SESSION["temp"]; ?>" readonly />
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="studentregno">from rollno</label>
+                                        <input type="text" class="form-control" id="c1" name="c1" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="studentregno">to rollno</label>
+                                        <input type="text" class="form-control" id="c2" name="c2" />
+                                    </div>
+                                    <button type="submit" name="CI" id="CI" class="btn btn-primary">Assign</button>
+                                    <button class="btn btn-danger" onclick="redirect()">Cancel</button>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+        <?php } ?>
         <?php include('includes/footer.php'); ?>
 
         <script src="assets/js/jquery-1.11.1.js"></script>

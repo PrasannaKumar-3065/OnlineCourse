@@ -84,6 +84,10 @@ while($row=mysqli_fetch_array($sql))
 <a href="showcourses.php?id=<?php echo $row['StudentRegno']?>">
 <button type="submit" name="submit" id="submit" class="btn btn-default">Registerd Courses</button>
 </a>
+<a href="onecredit.php?id=<?php echo $row['StudentRegno']?>">
+<button type="submit" name="submit" id="submit" class="btn btn-default">Change One Credit Courses</button>
+</a>
+
 <a href="showcertificatescihod.php?id=<?php echo $row['StudentRegno']?>">
 <button type="submit" name="submit" id="submit" class="btn btn-default">Certificates</button>
 </a>
