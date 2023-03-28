@@ -165,7 +165,7 @@ if (isset($_POST['submit'])) {
 
                         ?>
                         <label for="Course">
-                          <?php echo $row["courseCode"] . " : " . $row["courseName"]; ?>
+                          <?php echo $row["courseCode"] . " : " . $row["courseName"]." : "; ?>
                         </label>
                         <select class="form-select" name="staffs[]" id="staffs[]"
                           onchange="staffAvailability(this.value, <?php $row['id']; ?>)" required="required">
@@ -178,7 +178,7 @@ if (isset($_POST['submit'])) {
                             <option value="<?php echo htmlentities($row['staff3'] . "+" . $row["course"]); ?>"><?php echo staff($bd, $row['staff3']); ?></option>
                           <?php } ?>
                           <span id="user-availability-status1" style="font-size:12px;">
-                        </select>
+                        </select><br>
                       <?php }
 
                       }
@@ -186,7 +186,7 @@ if (isset($_POST['submit'])) {
                       while ($row = mysqli_fetch_assoc($sql)) {
                       ?>
                       <label for="Course">
-                          <?php echo $row["courseCode"] . " : " . $row["courseName"]; ?>
+                          <?php echo $row["courseCode"] . " : " . $row["courseName"]." : "; ?>
                         </label>
                         <select class="form-select" name="labstaffs[]" id="labstaffs[]" onchange="labstaffAvailability(this.value, <?php $row['id']; ?>)" required="required">
                         <option value="<?php echo htmlentities($row['staff1'] . '|' . $row['course'] . '|' . $row['staff2']); ?>"><?php echo labstaff($bd, $row['staff1'] , $row['staff2']); ?></option>
@@ -196,7 +196,7 @@ if (isset($_POST['submit'])) {
                         if (!empty($row["staff5"]) && !empty($row["staff6"])) { ?>
                         <option value="<?php echo htmlentities($row['staff5'] . '|' . $row['course'] . '|' . $row['staff6']); ?>"><?php echo labstaff($bd, $row['staff5'] , $row['staff6']); ?></option>
                         <?php } ?>
-                        </select>
+                        </select><br>
 
                   <?php } ?>
                     </div>

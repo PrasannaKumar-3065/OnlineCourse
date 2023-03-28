@@ -173,15 +173,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         $reader = new SpreadsheetReader($targetDirectory);
         foreach ($reader as $key => $row) {
-
-
             $tutorname = $row[0];
             $username = $row[1];
-            $password = $row[2];
-            $role = $row[3];
-            $department = $row[4];
-            mysqli_query($bd, "INSERT INTO tutors(tutorname,username,password,role,department) VALUES($tutorname,$username,$password,$role,$department)");
-        }
+            $password = md5($row[1]);
+            $role = $row[2];
+            $department = $row[3];
+            mysqli_query($bd, "INSERT INTO tutors(tutorname,username,password,role,department) VALUES('".$tutorname."','".$username."','".$password."','".$role."','".$department."')");
+        }   
 
         echo
         "

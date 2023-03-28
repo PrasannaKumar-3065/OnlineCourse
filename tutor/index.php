@@ -89,7 +89,7 @@ header("index.php");
             <span style="color:red;"><?php echo htmlentities($_SESSION['errmsg']); ?><?php echo htmlentities($_SESSION['errmsg'] = ""); ?></span>
             <form name="admin" method="post">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6"> 
                         <label>Enter User Name: </label>
                         <input type="text" name="username" class="form-control" />
                         <label>Enter Password : </label>
