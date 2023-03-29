@@ -17,7 +17,7 @@ if(isset($_POST['submit']))
    $role = $_POST['role'];
    $department=$_POST['department'];
 
-      $ret=mysqli_query($bd, "insert into tutors(tutorName,username,password,role,department) values('$tutorname','$username','$password','$role','$department')");
+      $ret=mysqli_query($bd, "insert into tutors(tutorname,username,password,role,department) values('$tutorname','$username','$password','$role','$department')");
       if($ret)
       {
       $_SESSION['msg']="tutor Registered Successfully !!";
@@ -87,15 +87,6 @@ if(isset($_POST['submit']))
     <label for="password">Password  </label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required />
   </div>   
-
-<div class="form-group">
-    <label for="role">Role  </label>
-    <select  class="form-control" id="role" name="role" placeholder="Role of the staff" required >
-    <option value="Tutor"> Tutor </option>
-      <option value="CI"> Class Incharge </option>
-      <option value="HOD"> HOD </option>
-    </select>
-  </div>
 
 <div class="form-group">
     <label for="department">Department  </label>

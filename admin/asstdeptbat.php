@@ -117,6 +117,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <a href="assign.php?id=<?php echo $row['id'] ?>">
                                                     <button class="btn btn-primary">Assign students</button>
                                                 </a>
+                                                <a href="updaterole.php?id=<?php echo $row['id'] ?>">
+                                                    <button class="btn btn-primary">Update Role</button>
+                                                </a>
                                                 <a href="asstdeptbat.php?id=<?php echo $row['id'] ?>&pass=update"
                                                     onClick="return confirm('Are you sure you want to reset password?')">
                                                     <button type="submit" name="submit" id="submit"

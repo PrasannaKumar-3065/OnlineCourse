@@ -10,7 +10,7 @@ if($count>0)
 echo "<span style='color:red'> Student with this Regno Already Registered.</span>";
 echo "<script>$('#submit').prop('disabled',true);</script>";
 } else{
-	
+	echo "<script>$('#submit').prop('disabled',false);</script>";
 
 }
 }
