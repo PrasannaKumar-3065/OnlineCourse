@@ -14,6 +14,7 @@ include('includes/config.php'); ?>
                             <li><a href="CreditTransferHod.php"> Credit Transfer</a></li>
                         <?php }
                             if($_SESSION['role'] == "CI"){ ?>
+                            <li><a href="mystudents.php">Tutor Ward Students</a></li>
                             <li><a href="StudentProgressCI.php">Class Incharge Students</a></li>
                             <li><a href="CreditTransferCI.php">Credit Transfer</a></li>
                             <?php } ?>

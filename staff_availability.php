@@ -26,7 +26,8 @@ function check($bd, $cid, $sid){
 	if($sql2>0){
 		echo ("<script>console.log('sql2 success');</script>");
 	}
-	if ($count >= $sql2) {
+	if (2 < $sql2) {
+	// if ($count >= $sql2) {
 		echo '<script>console.log("'.$sql2.'staff available");</script>';
 		echo "<script>$('#submit').prop('disabled',false);</script>";
 		// echo "<script>$('#submit').prop('disabled',true);</script>";
@@ -41,7 +42,7 @@ function check($bd, $cid, $sid){
 
 session_start();
 require_once("includes/config.php");
-echo ('<script>console.log("from staff_availablity");</script>');
+echo ('<script>alert("hello");</script>');
 if (strlen($_SESSION['login']) == null) {
 	header('location:index.php');
 } else {

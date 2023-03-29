@@ -167,7 +167,6 @@ if ($ele == 0) { ?>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<?php include('includes/footer.php'); ?>
 <script src="assets/js/jquery-1.11.1.js"></script>
 <script src="assets/js/bootstrap.js"></script>
 <script>
@@ -460,3 +459,4 @@ function check(checkbox, value) {
 </script>
 
 </html>
+<?php include('includes/footer.php'); ?>
