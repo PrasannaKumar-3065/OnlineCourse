@@ -1,9 +1,10 @@
 <?php
+echo ("<script>console.log('".$_POST['sid']."');</script>"); 
 function check($bd, $cid, $sid, $sid1){
 	$_SESSION["iterator"]=0;
 	$count = 0;
-	$off = explode(" ",$sid);
-	$query = mysqli_query($bd, "select * from courseenrolls where course = " . $off[1] . " and department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " ");
+	$off = explode("+",$sid);
+	$query = mysqli_query($bd, "select * from students where department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " ");
 	$sql1 = mysqli_num_rows($query);
 	if($sql1>0){ 
 		echo ("<script>console.log('sql1 result: ".$sql1."');</script>");
@@ -11,20 +12,20 @@ function check($bd, $cid, $sid, $sid1){
 	$sql = mysqli_fetch_assoc(mysqli_query($bd, "select * from course where id = " . $off[1] . " "));
 	if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] != "" && $sql["staff4"] != "" && $sql["staff5"] != "" && $sql["staff6"] != "") {
 		$count = (int)($sql1 / 3);
-		$count += 5;
+		//$count += 5;
 	} else if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] != "" && $sql["staff4"] != "" && $sql["staff5"] == "" && $sql["staff6"] == "" ) {
 		$count = (int)$sql1 / 2;
-		$count += 5;
+		//$count += 5;
 	} else if ($sql["staff1"] != "" && $sql["staff2"] != "" && $sql["staff3"] == "" && $sql["staff4"] == "" && $sql["staff5"] == "" && $sql["staff6"] == "" ) {
 		$count = (int)$sql1 / 1;
-		$count += 5;
+		//$count += 5;
 	}
 	echo('<script>console.log("count of students:'.$count.'")</script>');
 	$sql2 = mysqli_num_rows(mysqli_query($bd, "select * from courseenrolls where course = " . $off[1] . " and staff = '" . $off[0] . "' and staff1 = '".$off[2]."' and department = '" . $_SESSION["department"] . "' and batch = '" . $_SESSION["batch"] . "' and semester = " . $_SESSION["semester"] . " "));
 	if($sql2>0){
 		echo ("<script>console.log('sql2 success');</script>");
 	}
-	if ($count >= $sql2) {
+	if ($count > $sql2) {
 		echo '<script>console.log("'.$sql2.'staff available");</script>';
 		echo "<script>$('#submit').prop('disabled',false);</script>";
 		// echo "<script>$('#submit').prop('disabled',true);</script>";
@@ -39,7 +40,6 @@ function check($bd, $cid, $sid, $sid1){
 
 session_start();
 require_once("includes/config.php");
-echo ('<script>console.log("from labstaff_availablity");</script>');
 if (strlen($_SESSION['login']) == null) {
 	header('location:index.php');
 } else {
