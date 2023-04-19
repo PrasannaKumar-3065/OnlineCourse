@@ -1,10 +1,10 @@
-  <?php
+<?php
 session_start();
 include('includes/config.php');
 if (strlen($_SESSION['login']) == "") 
 {
   header('location:index.php');
-}
+}else{
 
 //$count = mysqli_num_rows(mysqli_query($bd,"select * from students where batch = '".$_SESSION["batch"]."' and semester = ".$_SESSION["semester"]." and department = '".$_SESSION["department"]."' "));
 
@@ -33,6 +33,11 @@ function labstaff($bd, $staff, $staff1)
       $staffs = $labstaff." - ".$labstaff1;
       return $staffs;
     }
+
+  //function staffcheck($val){
+   // $off = explode("+",$val);
+   // echo '<script>alert("its working '.$off[0].' + '.$off[1].'");</script>';	
+  //}
 
 if (isset($_POST['submit'])) {
   $staff = $_POST["staffs"];
@@ -73,12 +78,41 @@ if (isset($_POST['submit'])) {
 }
 
 
-   
-  ?>
+
+?>
 
   <!DOCTYPE html>
   <html xmlns="http://www.w3.org/1999/xhtml">
+  <script>
+      function staffAvailability(value) {
+       
+        $("#loaderIcon").show();
+        jQuery.ajax({
+          url: "check_availability.php",
+          data: 'cid=' + value, 
+          type: "POST",
+          success: function(data){
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+          },
+          error:function (){}
+        });
+      }
+      function labstaffAvailability(value) {
+        $("#loaderIcon").show();
+        jQuery.ajax({
 
+          url: "labstaff_availability.php",
+          data: 'sid=' + value,
+          type: "POST",
+          success: function(data) {
+            $("#user-availability-status1").html(data);
+            $("#loaderIcon").hide();
+          },
+          error:function (){}
+        });
+      }
+    </script>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -88,36 +122,7 @@ if (isset($_POST['submit'])) {
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
-    <script>
-      function staffAvailability(staff, course) {
-        $("#loaderIcon").show();
-        jQuery.ajax({
-
-          url: "staff_availability.php",
-          data: 'sid=' + staff + '&course=' + course,
-          type: "POST",
-          success: function (data) {
-            $("#user-availability-status1").html(data);
-            $("#loaderIcon").hide();
-          },
-          error: function () { }
-        });
-      }
-      function labstaffAvailability(staff, course, staff1) {
-        $("#loaderIcon").show();
-        jQuery.ajax({
-
-          url: "labstaff_availability.php",
-          data: 'sid=' + staff + '&course=' + course + '&sid1=' + staff1,
-          type: "POST",
-          success: function (data) {
-            $("#user-availability-status1").html(data);
-            $("#loaderIcon").hide();
-          },
-          error: function () { }
-        });
-      }
-    </script>
+    
   </head>
 
   <body>
@@ -165,28 +170,28 @@ if (isset($_POST['submit'])) {
 
                         ?>
                         <label for="Course">
-                          <?php echo $row["courseCode"] . " : " . $row["courseName"]." : "; ?>
+                          <?php echo $row["courseCode"] . " : " . $row["courseName"];  ?>
                         </label>
                         <select class="form-select" name="staffs[]" id="staffs[]"
-                          onchange="staffAvailability(this.value, <?php $row['id']; ?>)" required="required">
-                          <option value="<?php echo htmlentities($row['staff1'] . "+" . $row["course"]); ?>"><?php echo staff($bd, $row['staff1']); ?></option>
+                          onchange="staffAvailability(this.value)" required="required">
+                          <option value="<?php echo htmlentities($row['course']); ?>"><?php echo staff($bd, $row['staff1']); ?></option>
                           <?php
                           if (!empty($row["staff2"])) { ?>
-                            <option value="<?php echo htmlentities($row['staff2'] . "+" . $row["course"]); ?>"><?php echo staff($bd, $row['staff2']); ?></option>
+                            <option value="<?php echo htmlentities($row['course']); ?>"><?php echo staff($bd, $row['staff2']); ?></option>
                           <?php }
                           if (!empty($row["staff3"])) { ?>
-                            <option value="<?php echo htmlentities($row['staff3'] . "+" . $row["course"]); ?>"><?php echo staff($bd, $row['staff3']); ?></option>
+                            <option value="<?php echo htmlentities($row['course']); ?>"><?php echo staff($bd, $row['staff3']); ?></option>
                           <?php } ?>
                           <span id="user-availability-status1" style="font-size:12px;">
-                        </select><br>
+                        </select>
                       <?php }
 
                       }
-                      $sql = mysqli_query($bd, "select * from courseenrolls a inner join course b on a.course = b.id where a.studentRegno = " . $_SESSION['login'] . " and a.semester = " . $_SESSION['semester'] . " and b.type= 'CoreLab' ");
+                      $sql = mysqli_query($bd, "select * from courseenrolls a inner join course b on a.course = b.id where a.studentRegno = " . $_SESSION['login'] . " and a.semester = " . $_SESSION['semester'] . " and a.batch = '".$_SESSION['batch']."'  and b.type= 'CoreLab' ");
                       while ($row = mysqli_fetch_assoc($sql)) {
                       ?>
                       <label for="Course">
-                          <?php echo $row["courseCode"] . " : " . $row["courseName"]." : "; ?>
+                          <?php echo $row["courseCode"] . " : " . $row["courseName"]; ?>
                         </label>
                         <select class="form-select" name="labstaffs[]" id="labstaffs[]" onchange="labstaffAvailability(this.value, <?php $row['id']; ?>)" required="required">
                         <option value="<?php echo htmlentities($row['staff1'] . '|' . $row['course'] . '|' . $row['staff2']); ?>"><?php echo labstaff($bd, $row['staff1'] , $row['staff2']); ?></option>
@@ -196,9 +201,16 @@ if (isset($_POST['submit'])) {
                         if (!empty($row["staff5"]) && !empty($row["staff6"])) { ?>
                         <option value="<?php echo htmlentities($row['staff5'] . '|' . $row['course'] . '|' . $row['staff6']); ?>"><?php echo labstaff($bd, $row['staff5'] , $row['staff6']); ?></option>
                         <?php } ?>
-                        </select><br>
+                        </select>
 
                   <?php } ?>
+
+                  <select name="staff[]" id="staff[]" onchange="staffAvailability(this.value)" required="required">
+                          <option value="hi">hello</option>
+                          <option value="hi1">hello1</option>
+                          <option value="hi2">hello2</option>
+                          <option value="hi3">hello3</option>
+                </select>
                     </div>
 
                     <button onload="reset()" type="submit" name="submit" id="submit" class="btn btn-default">Submit</button>
@@ -214,7 +226,7 @@ if (isset($_POST['submit'])) {
           <div class="col-md-6">
             <div class="panel panel-default">
               <div class="panel-heading">
-                Request permission
+                Staff Selection Status
               </div>
               
               <font color="red" align="center">
@@ -266,7 +278,7 @@ if (isset($_POST['submit'])) {
           a[i].selectedIndex = -1;
         }
   </script>
-
+  
 
 
 
@@ -280,10 +292,10 @@ if (isset($_POST['submit'])) {
     <?php include('includes/footer.php'); ?>
     <script src="assets/js/jquery-1.11.1.js"></script>
     <script src="assets/js/bootstrap.js"></script>
-
+    
 
   </body>
 
   </html>
 
- <?php ?>
+<?php } ?>

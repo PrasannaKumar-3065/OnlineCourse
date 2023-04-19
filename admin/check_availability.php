@@ -1,4 +1,5 @@
-<?php 
+<?php
+echo ("<script>console.log('".$_POST['regno']."');</script>"); 
 require_once("includes/config.php");
 if(!empty($_POST["regno"])) {
 	$regno= $_POST["regno"];
@@ -9,6 +10,7 @@ if($count>0)
 {
 echo "<span style='color:red'> Student with this Regno Already Registered.</span>";
 echo "<script>$('#submit').prop('disabled',true);</script>";
+
 } else{
 	echo "<script>$('#submit').prop('disabled',false);</script>";
 

@@ -7,6 +7,7 @@
 	else{
 		if(!empty($_POST["cid"])) {
 				$cid= $_POST["cid"];
+				echo ("<script>console.log('result: ".$cid."');</script>");
 				$result1 =mysqli_query($bd, "SELECT * FROM courseenrolls WHERE studentRegno='".$_SESSION['login']."' and course='$cid'");
 				$count1=mysqli_num_rows($result1);
 				$result =mysqli_query($bd, "SELECT * FROM 	courseenrolls WHERE course='$cid'");

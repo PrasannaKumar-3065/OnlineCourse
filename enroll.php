@@ -289,7 +289,7 @@ function courseAvailability(value) {
                                     <br>
                                     <select class="form-select" multiple aria-label="multiple select example"
                                         name="course[]" id="course[]" onchange="courseAvailability(this.value)"
-                                        required="required">
+                                         required="required">
                                         <?php
                       $sql = mysqli_query($bd, "select * from course where (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='Core') or (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='CoreLab') or (department='" . $_SESSION['department'] . "' and batch = '" . $_SESSION['batch'] . "' and semester= " . $_SESSION['semester'] . " and regulation='" . $_SESSION['regulation'] . "' and type='OneCredit') ");
                       while ($row = mysqli_fetch_array($sql)) {
