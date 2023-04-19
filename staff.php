@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
   <html xmlns="http://www.w3.org/1999/xhtml">
   <script>
       function staffAvailability(value) {
-       
+       console.log(value);
         $("#loaderIcon").show();
         jQuery.ajax({
           url: "check_availability.php",
@@ -205,12 +205,6 @@ if (isset($_POST['submit'])) {
 
                   <?php } ?>
 
-                  <select name="staff[]" id="staff[]" onchange="staffAvailability(this.value)" required="required">
-                          <option value="hi">hello</option>
-                          <option value="hi1">hello1</option>
-                          <option value="hi2">hello2</option>
-                          <option value="hi3">hello3</option>
-                </select>
                     </div>
 
                     <button onload="reset()" type="submit" name="submit" id="submit" class="btn btn-default">Submit</button>
