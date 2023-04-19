@@ -85,7 +85,6 @@ if (isset($_POST['submit'])) {
   <html xmlns="http://www.w3.org/1999/xhtml">
   <script>
       function staffAvailability(value) {
-       console.log(value);
         $("#loaderIcon").show();
         jQuery.ajax({
           url: "check_availability.php",
